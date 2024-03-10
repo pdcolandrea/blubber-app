@@ -4,7 +4,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { zustandStorage } from './zustand-persist';
 
 interface WeightEntry {
-  date: string;
+  date: Date;
   weight: number;
   note?: string;
   image?: string;

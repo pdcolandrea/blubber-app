@@ -1,12 +1,21 @@
 import { Feather } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import { useMemo } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BaseScreen from '~/components/ui/base-screen';
 import WeightText from '~/components/weight-text';
+import { useWeightHistory } from '~/lib/weight-store';
 
 export default function TabOneScreen() {
+  const userHistory = useWeightHistory((store) => store.entries);
+
+  const lastWeight = useMemo(() => {
+    if (userHistory.length === 0) return 0;
+    return userHistory[userHistory.length - 1].weight;
+  }, [userHistory]);
+
   return (
     <BaseScreen>
       <SafeAreaView>
@@ -20,7 +29,7 @@ export default function TabOneScreen() {
         </View>
 
         <View className="flex-row items-center justify-center mt-10 ">
-          <WeightText weight={190.29} size="lg" />
+          <WeightText weight={lastWeight} size="lg" />
         </View>
         <Text className="font-incon text-center text-neutral-500 my-4">3 pounds lost so far</Text>
 
