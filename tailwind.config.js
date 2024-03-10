@@ -4,7 +4,16 @@ module.exports = {
 
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        incon_light: ['Inconsolata_300Light'],
+        incon: ['Inconsolata_400Regular'],
+        incon_semibold: ['Inconsolata_600SemiBold'],
+        incon_bold: ['Inconsolata_700Bold'],
+        incon_extrabold: ['Inconsolata_800ExtraBold'],
+        incon_black: ['Inconsolata_900Black'],
+      },
+    },
   },
   plugins: [],
 };

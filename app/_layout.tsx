@@ -1,5 +1,16 @@
 import '../global.css';
 
+import {
+  useFonts,
+  Inconsolata_200ExtraLight,
+  Inconsolata_300Light,
+  Inconsolata_400Regular,
+  Inconsolata_500Medium,
+  Inconsolata_600SemiBold,
+  Inconsolata_700Bold,
+  Inconsolata_800ExtraBold,
+  Inconsolata_900Black,
+} from '@expo-google-fonts/inconsolata';
 import { Stack } from 'expo-router';
 
 export const unstable_settings = {
@@ -8,10 +19,28 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Inconsolata_200ExtraLight,
+    Inconsolata_300Light,
+    Inconsolata_400Regular,
+    Inconsolata_500Medium,
+    Inconsolata_600SemiBold,
+    Inconsolata_700Bold,
+    Inconsolata_800ExtraBold,
+    Inconsolata_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      <Stack.Screen
+        name="add"
+        options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
+      />
     </Stack>
   );
 }
