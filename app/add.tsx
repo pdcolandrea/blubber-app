@@ -13,10 +13,18 @@ import {
   View,
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  SlideInDown,
+  useAnimatedStyle,
+  withDelay,
+  withSpring,
+} from 'react-native-reanimated';
 
 import { getFailedWeightPrompt } from '~/lib/prompts';
 import { useWeightHistory } from '~/lib/weight-store';
+
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function ModalScreen() {
   const unit = useWeightHistory((store) => store.unit);
@@ -27,6 +35,7 @@ export default function ModalScreen() {
   const lastEntry = getLastEntry();
 
   const [satisfaction, setSatisfaction] = useState<'happy' | 'neutral' | 'sad'>();
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [weight, setWeight] = useState(lastEntry?.weight ?? 0);
 
   const difference = (lastEntry && lastEntry?.weight - weight) ?? 0;
@@ -58,6 +67,12 @@ export default function ModalScreen() {
     return getFailedWeightPrompt(Math.abs(difference), dayjs(lastEntry?.date).fromNow());
   }, [weight]);
 
+  const addEntryButtonStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: showPhotoModal ? withDelay(250, withSpring(500)) : withSpring(0) }],
+    };
+  });
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -70,6 +85,7 @@ export default function ModalScreen() {
         <TextInput
           autoFocus
           value={weight.toString()}
+          editable={!showPhotoModal}
           onChangeText={onWeightChange}
           className="font-incon_semibold text-7xl"
           keyboardType="decimal-pad"
@@ -109,7 +125,12 @@ export default function ModalScreen() {
             <Text className="font-incon text-xl text-neutral-500">Notes</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className="mb-5 pr-8">
+          <TouchableOpacity
+            onPress={() => {
+              Keyboard.dismiss();
+              setShowPhotoModal(true);
+            }}
+            className="mb-5 pr-8">
             <Text className="text-2xl font-incon_semibold">-</Text>
             <Text className="font-incon text-xl text-neutral-500">Photos</Text>
           </TouchableOpacity>
@@ -157,18 +178,50 @@ export default function ModalScreen() {
       <View className="flex-1" />
 
       <KeyboardAvoidingView keyboardVerticalOffset={180} behavior="padding">
-        <TouchableOpacity
+        <AnimatedTouchableOpacity
           onPress={onSubmitEntryPressed}
-          style={{ width: '100%', borderRadius: 12, backgroundColor: '#292524' }}>
+          style={[
+            { width: '100%', borderRadius: 12, backgroundColor: '#292524' },
+            addEntryButtonStyle,
+          ]}>
           <Text className="text-xl font-incon_semibold text-center py-3 text-white">Add Entry</Text>
-        </TouchableOpacity>
+        </AnimatedTouchableOpacity>
+        {/* could not set to parent view; caused animation to jump */}
+        {showPhotoModal && (
+          <View>
+            <View className="flex-row items-end justify-between">
+              <AnimatedTouchableOpacity
+                entering={SlideInDown.delay(500)}
+                onPress={onSubmitEntryPressed}
+                style={[{ width: '47%', borderRadius: 12, backgroundColor: '#292524' }]}>
+                <Text className="text-xl font-incon_semibold text-center py-3 text-white">
+                  Take Photo
+                </Text>
+              </AnimatedTouchableOpacity>
+
+              <AnimatedTouchableOpacity
+                entering={SlideInDown.delay(500)}
+                onPress={onSubmitEntryPressed}
+                style={[{ width: '47%', borderRadius: 12, backgroundColor: '#292524' }]}>
+                <Text className="text-xl font-incon_semibold text-center py-3 text-white">
+                  Add Photo
+                </Text>
+              </AnimatedTouchableOpacity>
+            </View>
+            <AnimatedTouchableOpacity
+              onPress={() => setShowPhotoModal(false)}
+              entering={SlideInDown.delay(500)}>
+              <Text className="font-incon_semibold text-center my-2 text-xl underline">Cancel</Text>
+            </AnimatedTouchableOpacity>
+          </View>
+        )}
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );
 }
 
 const styles = {
-  container: `flex-1 mt-12 px-6 mb-12`,
+  container: `flex-1 mt-12 px-6 mb-8`,
   separator: `h-[1px] my-7 w-4/5 bg-gray-200`,
   title: `text-xl font-bold`,
 };
