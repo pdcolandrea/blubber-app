@@ -6,6 +6,7 @@ import { zustandStorage } from './zustand-persist';
 interface WeightEntry {
   date: Date;
   weight: number;
+  satisfaction?: 'happy' | 'neutral' | 'sad';
   note?: string;
   image?: string;
 }

@@ -1,11 +1,23 @@
+import { Feather } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useState } from 'react';
-import { Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList,
+  Keyboard,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import WeightText from '~/components/weight-text';
 import { useWeightHistory } from '~/lib/weight-store';
 
 export default function ModalScreen() {
   const [weight, setWeight] = useState(0.0);
+  const [satisfaction, setSatisfaction] = useState<'happy' | 'neutral' | 'sad'>();
   const unit = useWeightHistory((store) => store.unit);
   const addEntryMutation = useWeightHistory((store) => store.addEntry);
   const navigation = useNavigation();
@@ -26,12 +38,17 @@ export default function ModalScreen() {
   }, []);
 
   const onSubmitEntryPressed = () => {
-    addEntryMutation({ date: new Date(), weight });
+    addEntryMutation({ date: new Date(), satisfaction, weight });
     navigation.goBack();
   };
 
   return (
-    <View className={styles.container}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+      className={styles.container}>
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       <View className="self-center flex-row items-end">
         <TextInput
@@ -41,9 +58,42 @@ export default function ModalScreen() {
           className="font-incon_semibold text-7xl"
           keyboardType="decimal-pad"
         />
-        <Text className="font-incon text-5xl mb-2 text-neutral-400">lb</Text>
+        <Text className="font-incon text-5xl mb-2 text-neutral-400">{unit}</Text>
       </View>
       <Text className="text-center font-incon_bold mt-2">You are 3lb fatter than yesterday</Text>
+
+      <View className="mt-6">
+        <View>
+          <TouchableOpacity className="mb-5 pr-8 self-start">
+            <Text className="text-2xl font-incon_semibold">-</Text>
+            <Text className="font-incon text-xl text-neutral-500">Notes</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className="mb-5 pr-8">
+            <Text className="text-2xl font-incon_semibold">-</Text>
+            <Text className="font-incon text-xl text-neutral-500">Photos</Text>
+          </TouchableOpacity>
+
+          <View className="flex-row items-center">
+            <TouchableOpacity
+              className={`p-3 bg-green-200 rounded-full self-start ${satisfaction === 'happy' && 'border-[#166534] border p-[10px]'}`}
+              onPress={() => setSatisfaction('happy')}>
+              <Feather name="smile" color="#166534" size={17} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => setSatisfaction('neutral')}
+              className={`p-3 ml-3 bg-yellow-200 rounded-full self-start ${satisfaction === 'neutral' && 'border-[#ca8a04] border p-[10px]'}`}>
+              <Feather name="smile" color="#ca8a04" size={17} />
+            </TouchableOpacity>
+
+            <View className="p-3 ml-3 bg-red-200 rounded-full self-start">
+              <Feather name="smile" color="#b91c1c" size={17} />
+            </View>
+          </View>
+        </View>
+        <Text className="font-incon text-xl text-neutral-500">Satisfaction</Text>
+      </View>
 
       {/* <Text className="mt-6 font-incon_semibold text-neutral-500">Details</Text>
       <View className="bg-white rounded-lg p-4 mt-1">
@@ -66,10 +116,14 @@ export default function ModalScreen() {
 
       <View className="flex-1" />
 
-      <TouchableOpacity onPress={onSubmitEntryPressed} className="w-full bg-stone-800 rounded-xl">
-        <Text className="text-xl font-incon_semibold text-center py-3 text-white">Add Weight</Text>
-      </TouchableOpacity>
-    </View>
+      <KeyboardAvoidingView keyboardVerticalOffset={180} behavior="padding">
+        <TouchableOpacity
+          onPress={onSubmitEntryPressed}
+          style={{ width: '100%', borderRadius: 12, backgroundColor: '#292524' }}>
+          <Text className="text-xl font-incon_semibold text-center py-3 text-white">Add Entry</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </TouchableOpacity>
   );
 }
 

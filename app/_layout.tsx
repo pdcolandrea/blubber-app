@@ -13,6 +13,8 @@ import {
 } from '@expo-google-fonts/inconsolata';
 import { Stack } from 'expo-router';
 
+import { KeyboardProvider } from 'react-native-keyboard-controller';
+
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
@@ -35,17 +37,19 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      {/* stacks */}
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    <KeyboardProvider>
+      <Stack>
+        {/* stacks */}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-      <Stack.Screen name="list" />
+        <Stack.Screen name="list" options={{ headerShown: false }} />
 
-      {/* modals */}
-      <Stack.Screen
-        name="add"
-        options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
-      />
-    </Stack>
+        {/* modals */}
+        <Stack.Screen
+          name="add"
+          options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
+        />
+      </Stack>
+    </KeyboardProvider>
   );
 }
