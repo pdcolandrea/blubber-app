@@ -1,4 +1,4 @@
-import prompts from './motivation.json';
+import prompts from '../assets/motivation.json';
 
 const customAndTimeLength = prompts.rude.fail.customAndTime.length;
 
