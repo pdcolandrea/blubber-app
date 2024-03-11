@@ -36,7 +36,12 @@ export default function RootLayout() {
 
   return (
     <Stack>
+      {/* stacks */}
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+      <Stack.Screen name="list" />
+
+      {/* modals */}
       <Stack.Screen
         name="add"
         options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
