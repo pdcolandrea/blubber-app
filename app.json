@@ -38,6 +38,14 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.pdcolandrea.weighttracker"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5e86ba03-e970-489f-9d01-f7ad9c5a12ec"
+      }
     }
   }
 }
