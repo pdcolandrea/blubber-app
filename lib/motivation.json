@@ -1,0 +1,89 @@
+{
+  "rude": {
+    "success": {
+      "generic": [
+        { "message": "Well, look at you hitting your goal! Who kidnapped the real you?" },
+        { "message": "Goal reached! Did you accidentally trip into success?" },
+        { "message": "Congrats! Your scale is finally giving you the silent treatment." },
+        { "message": "Wow, goal achieved! Was your GPS set to 'unexpected fitness'?" },
+        { "message": "You hit your goal! Alert the media – no one saw that coming." },
+        { "message": "Goal smashed! Is this an alternate universe?" },
+        { "message": "Success! Did you mix up your cheat days with gym days?" },
+        { "message": "You reached the goal! Did you confuse your couch with a treadmill?" },
+        { "message": "Hitting your goal? Check your calendar – is it April Fools' Day?" },
+        { "message": "Target achieved! Are you feeling okay or is this just a phase?" },
+        { "message": "Goal hit! Did you hack the app?" },
+        { "message": "Wow, success! Aliens involved?" },
+        { "message": "You did it! Is your scale drunk?" },
+        { "message": "Goal smashed! Did pigs fly?" },
+        { "message": "Achieved it? Check for body snatchers." },
+        { "message": "Target reached! Glitch in the matrix?" },
+        { "message": "You won? Someone pinch you." },
+        { "message": "Goal conquered! Is this a prank?" },
+        { "message": "Hit your goal? Did your mirror finally bribe you?" },
+        { "message": "Goal crushed! Was there a sale on willpower?" },
+        { "message": "You reached it! Is this part of a witness protection program change?" },
+        { "message": "Success! Who are you, and what have you done with the couch potato?" },
+        { "message": "Achieved your goal! Did you accidentally swap snacks with dumbbells?" },
+        { "message": "Target nailed! Did you confuse your lazy Sundays with gym days?" },
+        { "message": "Goal hit! Are you just showing off now?" },
+        { "message": "Wow, you did it! Is your fridge feeling lonely?" },
+        { "message": "Success! Is this your superhero origin story?" },
+        { "message": "Goal conquered! Were you bitten by a radioactive personal trainer?" }
+      ]
+    },
+    "fail": {
+      "custom": [
+        { "message": "Whoa, gained {x}lbs? Is that a new record?" },
+        { "message": "Oops, {x}lbs heavier? Your scale's crying for help!" },
+        { "message": "Gained {x}lbs? Are you collecting them for a yard sale?" },
+        { "message": "Hello, {x}lbs of extra love! Did you mistake the gym for a buffet?" },
+        { "message": "{x}lbs up? Did you eat the weight plates instead of lifting them?" },
+        { "message": "Bravo, {x}lbs gained! Was that on purpose?" },
+        { "message": "{x}lbs heavier? You're turning into a gravity magnet!" },
+        { "message": "A wild {x}lbs appeared! It's super effective... at tightening your pants." },
+        { "message": "{x}lbs gained. Is your wardrobe on a stretch goal?" },
+        { "message": "Congrats on the {x}lb gain. Were you trying to level up in weight class?" },
+        { "message": "Gained {x}lbs? Did you swallow a whole cake factory?" },
+        { "message": "{x}lbs up? Even your clothes are giving you the cold shoulder." },
+        { "message": "Whoa, {x}lbs heavier? Was your workout routine just a rumor?" },
+        { "message": "{x}lbs gained? Maybe it's time your fridge had an intervention." },
+        { "message": "Added {x}lbs? Is gravity playing favorites with you?" },
+        { "message": "Packed on {x}lbs? Did you mistake a treadmill for a buffet line?" },
+        { "message": "{x}lbs heavier? I hope your sofa's in therapy." },
+        { "message": "So, {x}lbs gained? Your gym membership is now a museum exhibit." },
+        { "message": "{x}lbs up? Are you collecting them for a world record?" },
+        { "message": "Gained {x}lbs? You're the reason scales have panic buttons." }
+      ],
+      "customAndTime": [
+        {
+          "message": "{x}lbs heavier in just {time}? Did you confuse a marathon with a food sprint?"
+        },
+        { "message": "Gained {x}lbs since {time}? What did you do, eat a whole buffet?" },
+        { "message": "{x}lbs up in {time}? I guess time flies when you're inhaling cookies." },
+        {
+          "message": "{time} ago you were lighter by {x}lbs. Did you find a candy treasure chest?"
+        },
+        { "message": "Since {time}, you're up {x}lbs. Did your diet take a detour?" },
+        { "message": "{x}lbs gained in {time}? Are you testing the limits of physics?" },
+        {
+          "message": "It's been {time}, and you've gained {x}lbs. Did your fridge declare an open house?"
+        },
+        { "message": "{x}lbs in {time}? Are you on a see-food diet?" },
+        { "message": "You gained {x}lbs in {time}? Is your scale staging a protest?" }
+      ],
+      "generic": [
+        { "message": "Yikes! Did gravity just get stronger, or is it just you?" },
+        { "message": "Oops! Looks like you're defying the laws of weight loss." },
+        { "message": "Alert: Your scale is requesting a vacation." },
+        { "message": "Seems like your snacks are staging a mutiny in there!" },
+        { "message": "Whoa, did you swallow a dumbbell?" },
+        { "message": "Congratulations on your weight gain - said no one ever." },
+        { "message": "Is your fridge holding your family hostage? Blink twice for yes." },
+        { "message": "Looks like you're on a seafood diet. You see food and... well, you know." },
+        { "message": "Your jeans are starting a protest march." },
+        { "message": "Breaking News: Local hero saves calories from being burned." }
+      ]
+    }
+  }
+}

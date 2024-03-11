@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, PanGestureHandler } from 'react-native-gesture-handler';
 import { LineGraph } from 'react-native-graph';
-import Animated from 'react-native-reanimated';
+import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BaseScreen from '~/components/ui/base-screen';
@@ -75,70 +75,69 @@ export default function TabOneScreen() {
             </Text>
 
             <View className="mt-6">
-              <View>
-                <WeightText weight={195.32} />
-                <Text className="font-incon text-xl text-neutral-500">Last Entry</Text>
-              </View>
-
-              <View className="mt-5">
-                <Text className="text-2xl font-incon_semibold">21.4</Text>
-                <Text className="font-incon text-xl text-neutral-500">BMI</Text>
-              </View>
-
-              <View className="mt-5">
+              <Animated.View entering={SlideInLeft} className="mb-5">
                 <WeightText weight={195.32} />
                 <Text className="font-incon text-xl text-neutral-500">Weekly Goal</Text>
-              </View>
+              </Animated.View>
+              <Animated.View entering={SlideInLeft.delay(300)}>
+                <Text className="text-2xl font-incon_semibold">2 days</Text>
+                <Text className="font-incon text-xl text-neutral-500">Streak</Text>
+              </Animated.View>
+
+              <Animated.View entering={SlideInLeft.delay(600)} className="mt-5">
+                <Text className="text-2xl font-incon_semibold">21.4</Text>
+                <Text className="font-incon text-xl text-neutral-500">BMI</Text>
+              </Animated.View>
             </View>
 
             <View className="flex-1" />
-
-            <View style={{ marginHorizontal: -32 }}>
-              <LineGraph
-                animated
-                enablePanGesture
-                color="#292524"
-                style={{
-                  width: '100%',
-                  height: 250,
-                }}
-                points={userHistory.map((entry) => {
-                  return {
-                    date: new Date(entry.date),
-                    value: entry.weight,
-                  };
-                })}
-              />
-            </View>
-
-            <FlatList
-              data={[7, 14, 21]}
-              horizontal
-              // pagingEnabled
-              bounces
-              style={{ flexGrow: 0, marginBottom: 24 }}
-              showsHorizontalScrollIndicator={false}
-              snapToAlignment="center"
-              snapToInterval={screenWidth} // Added for custom snapping
-              decelerationRate="fast" // Optional, for smoother scrolling
-              renderItem={({ item, index }) => {
-                return (
-                  <View style={{ width: screenWidth }}>
-                    <Animated.Text
-                      style={{
-                        fontFamily: 'Inconsolata_400Regular',
-                        textAlign: 'center',
-                        color: '#737373',
-                        fontSize: 20,
-                      }}>
-                      Last {item} Days
-                    </Animated.Text>
-                  </View>
-                );
-              }}
-            />
           </View>
         </PanGestureHandler>
+
+        <View style={{ marginHorizontal: -32 }}>
+          <LineGraph
+            animated
+            enablePanGesture
+            color="#292524"
+            style={{
+              width: '100%',
+              height: 250,
+            }}
+            points={userHistory.map((entry) => {
+              return {
+                date: new Date(entry.date),
+                value: entry.weight,
+              };
+            })}
+          />
+        </View>
+
+        <FlatList
+          data={[7, 14, 21]}
+          horizontal
+          // pagingEnabled
+          bounces
+          style={{ flexGrow: 0, marginBottom: 24 }}
+          showsHorizontalScrollIndicator={false}
+          snapToAlignment="center"
+          snapToInterval={screenWidth} // Added for custom snapping
+          decelerationRate="fast" // Optional, for smoother scrolling
+          renderItem={({ item, index }) => {
+            return (
+              <View style={{ width: screenWidth }}>
+                <Animated.Text
+                  style={{
+                    fontFamily: 'Inconsolata_400Regular',
+                    textAlign: 'center',
+                    color: '#737373',
+                    fontSize: 20,
+                  }}>
+                  Last {item} Days
+                </Animated.Text>
+              </View>
+            );
+          }}
+        />
       </SafeAreaView>
     </BaseScreen>
   );

@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   FlatList,
   Keyboard,
@@ -14,7 +14,8 @@ import {
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import Animated, { FadeIn } from 'react-native-reanimated';
-import WeightText from '~/components/weight-text';
+
+import { getFailedWeightPrompt } from '~/lib/prompts';
 import { useWeightHistory } from '~/lib/weight-store';
 
 export default function ModalScreen() {
@@ -51,6 +52,12 @@ export default function ModalScreen() {
     navigation.goBack();
   };
 
+  const successPrompt = useMemo(() => {}, [weight]);
+
+  const failPrompt = useMemo(() => {
+    return getFailedWeightPrompt(Math.abs(difference), dayjs(lastEntry?.date).fromNow());
+  }, [weight]);
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -82,7 +89,7 @@ export default function ModalScreen() {
         <Animated.Text
           entering={FadeIn.duration(1000)}
           className="text-center font-incon_bold mt-2">
-          You are 3lb fatter than {dayjs(lastEntry?.date).fromNow()}
+          {failPrompt}
         </Animated.Text>
       )}
 
