@@ -13,6 +13,8 @@ import {
 } from '@expo-google-fonts/inconsolata';
 import { Stack } from 'expo-router';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export const unstable_settings = {
@@ -37,19 +39,21 @@ export default function RootLayout() {
   }
 
   return (
-    <KeyboardProvider>
-      <Stack>
-        {/* stacks */}
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <KeyboardProvider>
+        <Stack>
+          {/* stacks */}
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-        <Stack.Screen name="list" options={{ headerShown: false }} />
+          <Stack.Screen name="list" options={{ headerShown: false }} />
 
-        {/* modals */}
-        <Stack.Screen
-          name="add"
-          options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
-        />
-      </Stack>
-    </KeyboardProvider>
+          {/* modals */}
+          <Stack.Screen
+            name="add"
+            options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
+          />
+        </Stack>
+      </KeyboardProvider>
+    </GestureHandlerRootView>
   );
 }

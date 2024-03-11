@@ -1,7 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Link, useNavigation } from 'expo-router';
-import { useMemo } from 'react';
 import { FlatList, TouchableOpacity, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BaseScreen from '~/components/ui/base-screen';
@@ -26,19 +25,19 @@ export default function WeightHistoryList() {
         </View>
 
         <FlatList
-          data={[...entries].reverse()}
+          data={entries.sort((a, b) => b.date - a.date)}
           style={{ marginTop: 24 }}
           ItemSeparatorComponent={() => <View className="w-full h-1" />}
           renderItem={({ item, index }) => {
             return (
-              <View className="flex-row justify-between items-center">
+              <TouchableOpacity className="flex-row justify-between items-center">
                 <View className="flex-row items-center">
                   <Text className="font-incon_semibold text-neutral-500 text-xl">
                     {dayjs(item.date).fromNow()}
                   </Text>
                 </View>
                 <WeightText weight={item.weight} />
-              </View>
+              </TouchableOpacity>
             );
           }}
         />

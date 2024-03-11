@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import dayjs from 'dayjs';
 import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useState } from 'react';
@@ -12,15 +13,23 @@ import {
   View,
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import WeightText from '~/components/weight-text';
 import { useWeightHistory } from '~/lib/weight-store';
 
 export default function ModalScreen() {
-  const [weight, setWeight] = useState(0.0);
-  const [satisfaction, setSatisfaction] = useState<'happy' | 'neutral' | 'sad'>();
   const unit = useWeightHistory((store) => store.unit);
+  const getLastEntry = useWeightHistory((store) => store.lastEntry);
   const addEntryMutation = useWeightHistory((store) => store.addEntry);
+
   const navigation = useNavigation();
+  const lastEntry = getLastEntry();
+
+  const [satisfaction, setSatisfaction] = useState<'happy' | 'neutral' | 'sad'>();
+  const [weight, setWeight] = useState(lastEntry?.weight ?? 0);
+
+  const difference = (lastEntry && lastEntry?.weight - weight) ?? 0;
+  const goodDay = (lastEntry && lastEntry.weight >= weight) ?? true;
 
   const onWeightChange = useCallback((text: string) => {
     try {
@@ -60,7 +69,31 @@ export default function ModalScreen() {
         />
         <Text className="font-incon text-5xl mb-2 text-neutral-400">{unit}</Text>
       </View>
-      <Text className="text-center font-incon_bold mt-2">You are 3lb fatter than yesterday</Text>
+
+      {(weight === 0 || difference === 0) && (
+        <Animated.Text
+          entering={FadeIn.duration(1000)}
+          className="text-center font-incon_bold mt-2">
+          Today is your day
+        </Animated.Text>
+      )}
+
+      {lastEntry && weight !== 0 && difference !== 0 && !goodDay && (
+        <Animated.Text
+          entering={FadeIn.duration(1000)}
+          className="text-center font-incon_bold mt-2">
+          You are 3lb fatter than {dayjs(lastEntry?.date).fromNow()}
+        </Animated.Text>
+      )}
+
+      {lastEntry && weight !== 0 && difference !== 0 && goodDay && (
+        <Animated.Text
+          entering={FadeIn.duration(1000)}
+          className="text-center font-incon_bold mt-2">
+          You are {lastEntry.weight - weight}
+          {unit} skinnier than {dayjs(lastEntry?.date).fromNow()}
+        </Animated.Text>
+      )}
 
       <View className="mt-6">
         <View>
