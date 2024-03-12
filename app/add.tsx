@@ -3,24 +3,9 @@ import dayjs from 'dayjs';
 import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useMemo, useState } from 'react';
-import {
-  FlatList,
-  Keyboard,
-  Platform,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Keyboard, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import Animated, {
-  FadeIn,
-  SlideInDown,
-  SlideInUp,
-  useAnimatedStyle,
-  withDelay,
-  withSpring,
-} from 'react-native-reanimated';
+import Animated, { FadeIn, SlideInDown, SlideInUp } from 'react-native-reanimated';
 
 import { getFailedWeightPrompt } from '~/lib/prompts';
 import { useWeightHistory } from '~/lib/weight-store';
@@ -40,6 +25,7 @@ export default function ModalScreen() {
   const [satisfaction, setSatisfaction] = useState<'happy' | 'neutral' | 'sad'>();
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [weight, setWeight] = useState(lastEntry?.weight ?? 0);
+  const [photosToAdd, setPhotosToAdd] = useState<string[]>([]);
 
   const difference = (lastEntry && lastEntry?.weight - weight) ?? 0;
   const goodDay = (lastEntry && lastEntry.weight >= weight) ?? true;
@@ -69,6 +55,33 @@ export default function ModalScreen() {
   const failPrompt = useMemo(() => {
     return getFailedWeightPrompt(Math.abs(difference), dayjs(lastEntry?.date).fromNow());
   }, [weight]);
+
+  const onTakePhotoPressed = () => {
+    launchCamera({ mediaType: 'photo' }, (response) => {
+      if (response.assets && response.assets.length >= 1) {
+        const photo = response.assets[0].uri!;
+
+        setShowPhotoModal(false);
+        setPhotosToAdd((photos) => [...photos, photo]);
+      }
+    });
+  };
+
+  const onUploadPhotoPressed = () => {
+    launchImageLibrary({ mediaType: 'photo', selectionLimit: 5 }, (response) => {
+      if (response.assets && response.assets.length >= 1) {
+        let newPhotos: string[] = [];
+        response.assets.forEach((asset) => {
+          if (asset.uri) {
+            newPhotos = [...newPhotos, asset.uri];
+          }
+        });
+
+        setShowPhotoModal(false);
+        setPhotosToAdd((p) => [...p, ...newPhotos]);
+      }
+    });
+  };
 
   return (
     <TouchableOpacity
@@ -128,7 +141,20 @@ export default function ModalScreen() {
               setShowPhotoModal(true);
             }}
             className="mb-5 pr-8">
-            <Text className="text-2xl font-incon_semibold">-</Text>
+            <View className="flex-row items-center">
+              <Text className="text-2xl font-incon_semibold mr-2">
+                {photosToAdd.length === 0
+                  ? '-'
+                  : photosToAdd.length === 1
+                    ? `1 Photo`
+                    : `${photosToAdd.length} Photos`}
+              </Text>
+              {photosToAdd.length >= 1 && (
+                <TouchableOpacity onPress={() => setPhotosToAdd([])}>
+                  <Feather name="x" size={15} />
+                </TouchableOpacity>
+              )}
+            </View>
             <Text className="font-incon text-xl text-neutral-500">Photos</Text>
           </TouchableOpacity>
 
@@ -179,8 +205,8 @@ export default function ModalScreen() {
       <KeyboardAvoidingView keyboardVerticalOffset={180} behavior="padding">
         {!showPhotoModal && (
           <AnimatedTouchableOpacity
-            entering={SlideInDown.springify(500)}
-            exiting={SlideInUp.springify(500)}
+            entering={SlideInDown}
+            exiting={SlideInUp}
             onPress={onSubmitEntryPressed}
             style={[
               { width: '100%', borderRadius: 12, backgroundColor: '#292524' },
@@ -194,17 +220,21 @@ export default function ModalScreen() {
 
         {showPhotoModal && (
           <Animated.View
-            entering={SlideInDown.springify(500).delay(500)}
-            exiting={SlideInUp.springify(500).delay(500)}
-            className="flex-row gap-4">
+            entering={SlideInDown.delay(500)}
+            exiting={SlideInUp.delay(500)}
+            className="flex-row gap-2">
             <View className="flex-row gap-2 w-4/5 items-center">
-              <TouchableOpacity style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
+              <TouchableOpacity
+                onPress={onTakePhotoPressed}
+                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
                 <Text className="text-xl font-incon_semibold text-center py-3 text-white">
                   Take
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
+              <TouchableOpacity
+                onPress={onUploadPhotoPressed}
+                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
                 <Text className="text-xl font-incon_semibold text-center py-3 text-white">
                   Upload
                 </Text>

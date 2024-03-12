@@ -10,11 +10,10 @@ const generateFakeData = () => {
     date.setDate(date.getDate() - i);
     entries.push({
       date,
-
       weight: Math.floor(Math.random() * 100) + 200,
       satisfaction: ['happy', 'neutral', 'sad'][Math.floor(Math.random() * 3)],
       note: 'This is a note',
-      image: 'https://via.placeholder.com/150',
+      images: 'https://via.placeholder.com/150',
     });
   }
   return entries;
@@ -25,7 +24,7 @@ interface WeightEntry {
   weight: number;
   satisfaction?: 'happy' | 'neutral' | 'sad';
   note?: string;
-  image?: string;
+  images?: string[];
 }
 
 type WeightUnit = 'lb' | 'kg';
@@ -57,7 +56,7 @@ export const useWeightHistory = create<WeightState>()(
       debugAdd: () =>
         set((state) => {
           const entries = generateFakeData();
-          return { entries: entries };
+          return { entries };
         }),
     }),
     { name: 'weight-history', storage: createJSONStorage(() => zustandStorage) }
