@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Keyboard, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import Animated, { FadeIn, SlideInDown, SlideInUp } from 'react-native-reanimated';
