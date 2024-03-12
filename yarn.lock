@@ -7390,11 +7390,6 @@ react-native-gesture-handler@~2.14.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-graph@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-graph/-/react-native-graph-1.0.2.tgz#960c682159e18f053322492c0572210c82076fc8"
-  integrity sha512-VjJcOrU6fSkvG/Gl9euAsPnTewQK/Fk2QdCgdgY4/lY/XuoFWF2m5oYK3g1OodEdPpB4xLUlGolskEmcON2yzA==
-
 react-native-haptic-feedback@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-2.2.0.tgz#bc46edd1f053265bfbe6c32487cbce074e099429"

@@ -4,7 +4,7 @@ import { Link, router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, Text, TouchableOpacity, View, FlatList } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import { LineGraph } from 'react-native-graph';
+
 import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LineChart } from 'react-native-wagmi-charts';
