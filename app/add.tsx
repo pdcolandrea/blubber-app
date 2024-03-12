@@ -16,6 +16,7 @@ import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import Animated, {
   FadeIn,
   SlideInDown,
+  SlideInUp,
   useAnimatedStyle,
   withDelay,
   withSpring,
@@ -67,11 +68,11 @@ export default function ModalScreen() {
     return getFailedWeightPrompt(Math.abs(difference), dayjs(lastEntry?.date).fromNow());
   }, [weight]);
 
-  const addEntryButtonStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: showPhotoModal ? withDelay(250, withSpring(500)) : withSpring(0) }],
-    };
-  });
+  // const addEntryButtonStyle = useAnimatedStyle(() => {
+  //   return {
+  //     transform: [{ translateY: showPhotoModal ? withDelay(250, withSpring(500)) : withSpring(0) }],
+  //   };
+  // });
 
   return (
     <TouchableOpacity
@@ -148,9 +149,11 @@ export default function ModalScreen() {
               <Feather name="smile" color="#ca8a04" size={17} />
             </TouchableOpacity>
 
-            <View className="p-3 ml-3 bg-red-200 rounded-full self-start">
+            <TouchableOpacity
+              className={`p-3 ml-3 bg-red-200 rounded-full self-start ${satisfaction === 'sad' && 'border-[#b91c1c] border p-[10px]'}`}
+              onPress={() => setSatisfaction('sad')}>
               <Feather name="smile" color="#b91c1c" size={17} />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         <Text className="font-incon text-xl text-neutral-500">Satisfaction</Text>
@@ -178,20 +181,27 @@ export default function ModalScreen() {
       <View className="flex-1" />
 
       <KeyboardAvoidingView keyboardVerticalOffset={180} behavior="padding">
-        <AnimatedTouchableOpacity
-          onPress={onSubmitEntryPressed}
-          style={[
-            { width: '100%', borderRadius: 12, backgroundColor: '#292524' },
-            addEntryButtonStyle,
-          ]}>
-          <Text className="text-xl font-incon_semibold text-center py-3 text-white">Add Entry</Text>
-        </AnimatedTouchableOpacity>
+        {!showPhotoModal && (
+          <AnimatedTouchableOpacity
+            entering={SlideInDown}
+            exiting={SlideInUp}
+            onPress={onSubmitEntryPressed}
+            style={[
+              { width: '100%', borderRadius: 12, backgroundColor: '#292524' },
+              // addEntryButtonStyle,
+            ]}>
+            <Text className="text-xl font-incon_semibold text-center py-3 text-white">
+              Add Entry
+            </Text>
+          </AnimatedTouchableOpacity>
+        )}
         {/* could not set to parent view; caused animation to jump */}
         {showPhotoModal && (
           <View>
             <View className="flex-row items-end justify-between">
               <AnimatedTouchableOpacity
                 entering={SlideInDown.delay(500)}
+                exiting={SlideInUp.delay(500)}
                 onPress={onSubmitEntryPressed}
                 style={[{ width: '47%', borderRadius: 12, backgroundColor: '#292524' }]}>
                 <Text className="text-xl font-incon_semibold text-center py-3 text-white">
@@ -201,6 +211,7 @@ export default function ModalScreen() {
 
               <AnimatedTouchableOpacity
                 entering={SlideInDown.delay(500)}
+                exiting={SlideInUp.delay(500)}
                 onPress={onSubmitEntryPressed}
                 style={[{ width: '47%', borderRadius: 12, backgroundColor: '#292524' }]}>
                 <Text className="text-xl font-incon_semibold text-center py-3 text-white">
