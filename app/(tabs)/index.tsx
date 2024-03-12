@@ -1,12 +1,13 @@
 import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Link, router } from 'expo-router';
-import { useEffect, useMemo, useRef } from 'react';
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
-import { FlatList, PanGestureHandler } from 'react-native-gesture-handler';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Dimensions, Text, TouchableOpacity, View, FlatList } from 'react-native';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import { LineGraph } from 'react-native-graph';
 import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LineChart } from 'react-native-wagmi-charts';
 
 import BaseScreen from '~/components/ui/base-screen';
 import WeightText from '~/components/weight-text';
@@ -19,21 +20,24 @@ const screenWidth = Dimensions.get('window').width;
 
 export default function TabOneScreen() {
   const userHistory = useWeightHistory((store) => store.entries);
+  const refetchEntry = useWeightHistory((store) => store.lastEntry);
   const lastEntry = useWeightHistory((store) => store.lastEntry());
   const generateFakeData = useWeightHistory((store) => store.debugAdd);
+  const userUnit = useWeightHistory((store) => store.unit);
   const openedModal = useRef(false);
 
-  const timedEntries = useMemo(() => {
-    if (userHistory.length === 0) return {};
-    const sinceSeven = userHistory.filter((entry) =>
-      dayjs(entry.date).isAfter(dayjs().subtract(7, 'day'))
-    );
+  const [dateFilter, setDateFilter] = useState(7);
 
-    return {
-      '7d': sinceSeven,
-      '14d': [],
-    };
-  }, [userHistory]);
+  useEffect(() => {
+    // every 1min, refetch lastEntry
+
+    const timer = setInterval(() => {
+      console.log('fetching last entry');
+      refetchEntry();
+    }, 60000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <BaseScreen>
@@ -56,7 +60,10 @@ export default function TabOneScreen() {
           <View style={{ flex: 1 }}>
             <View className="w-full flex-row justify-between">
               <Link asChild href="/add">
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    generateFakeData();
+                  }}>
                   <Feather name="settings" color="#a3a3a3" size={17} />
                 </TouchableOpacity>
               </Link>
@@ -95,27 +102,54 @@ export default function TabOneScreen() {
         </PanGestureHandler>
 
         <View style={{ marginHorizontal: -32 }}>
-          <LineGraph
-            animated
-            enablePanGesture
-            color="#292524"
-            style={{
-              width: '100%',
-              height: 250,
-            }}
-            points={userHistory.map((entry) => {
-              return {
-                date: new Date(entry.date),
-                value: entry.weight,
-              };
-            })}
-          />
+          <LineChart.Provider
+            data={userHistory
+              .filter((entry) => dayjs().diff(dayjs(entry.date), 'day') <= dateFilter)
+              .map((entry) => {
+                return {
+                  value: entry.weight,
+                  date: parseFloat(
+                    new Date(entry.date).toISOString().replace('T', ' ').substring(0, 19)
+                  ),
+                };
+              })}>
+            <LineChart height={250}>
+              <LineChart.Path>
+                {/* <LineChart.Tooltip at={2} />
+
+                <LineChart.Tooltip at={2} /> */}
+              </LineChart.Path>
+              <LineChart.CursorCrosshair>
+                <LineChart.Tooltip>
+                  <LineChart.PriceText
+                    style={{
+                      fontFamily: 'Inconsolata_600SemiBold',
+                      backgroundColor: 'black',
+                      borderRadius: 4,
+                      color: 'white',
+                      fontSize: 14,
+                      padding: 4,
+                    }}
+                    format={({ value }) => {
+                      'worklet';
+                      return `${value} ${userUnit}`;
+                    }}
+                  />
+                </LineChart.Tooltip>
+              </LineChart.CursorCrosshair>
+            </LineChart>
+          </LineChart.Provider>
         </View>
 
         <FlatList
           data={[7, 14, 21]}
           horizontal
           // pagingEnabled
+          onViewableItemsChanged={({ viewableItems, changed }) => {
+            const [item] = viewableItems;
+            const key = item.item as number;
+            setDateFilter(key);
+          }}
           bounces
           style={{ flexGrow: 0, marginBottom: 24 }}
           showsHorizontalScrollIndicator={false}
