@@ -25,6 +25,8 @@ import Animated, {
 import { getFailedWeightPrompt } from '~/lib/prompts';
 import { useWeightHistory } from '~/lib/weight-store';
 
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function ModalScreen() {
@@ -67,12 +69,6 @@ export default function ModalScreen() {
   const failPrompt = useMemo(() => {
     return getFailedWeightPrompt(Math.abs(difference), dayjs(lastEntry?.date).fromNow());
   }, [weight]);
-
-  // const addEntryButtonStyle = useAnimatedStyle(() => {
-  //   return {
-  //     transform: [{ translateY: showPhotoModal ? withDelay(250, withSpring(500)) : withSpring(0) }],
-  //   };
-  // });
 
   return (
     <TouchableOpacity
@@ -183,8 +179,8 @@ export default function ModalScreen() {
       <KeyboardAvoidingView keyboardVerticalOffset={180} behavior="padding">
         {!showPhotoModal && (
           <AnimatedTouchableOpacity
-            entering={SlideInDown}
-            exiting={SlideInUp}
+            entering={SlideInDown.springify(500)}
+            exiting={SlideInUp.springify(500)}
             onPress={onSubmitEntryPressed}
             style={[
               { width: '100%', borderRadius: 12, backgroundColor: '#292524' },
@@ -195,36 +191,42 @@ export default function ModalScreen() {
             </Text>
           </AnimatedTouchableOpacity>
         )}
-        {/* could not set to parent view; caused animation to jump */}
-        {showPhotoModal && (
-          <View>
-            <View className="flex-row items-end justify-between">
-              <AnimatedTouchableOpacity
-                entering={SlideInDown.delay(500)}
-                exiting={SlideInUp.delay(500)}
-                onPress={onSubmitEntryPressed}
-                style={[{ width: '47%', borderRadius: 12, backgroundColor: '#292524' }]}>
-                <Text className="text-xl font-incon_semibold text-center py-3 text-white">
-                  Take Photo
-                </Text>
-              </AnimatedTouchableOpacity>
 
-              <AnimatedTouchableOpacity
-                entering={SlideInDown.delay(500)}
-                exiting={SlideInUp.delay(500)}
-                onPress={onSubmitEntryPressed}
-                style={[{ width: '47%', borderRadius: 12, backgroundColor: '#292524' }]}>
+        {showPhotoModal && (
+          <Animated.View
+            entering={SlideInDown.springify(500).delay(500)}
+            exiting={SlideInUp.springify(500).delay(500)}
+            className="flex-row gap-4">
+            <View className="flex-row gap-2 w-4/5 items-center">
+              <TouchableOpacity style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
                 <Text className="text-xl font-incon_semibold text-center py-3 text-white">
-                  Add Photo
+                  Take
                 </Text>
-              </AnimatedTouchableOpacity>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
+                <Text className="text-xl font-incon_semibold text-center py-3 text-white">
+                  Upload
+                </Text>
+              </TouchableOpacity>
             </View>
-            <AnimatedTouchableOpacity
-              onPress={() => setShowPhotoModal(false)}
-              entering={SlideInDown.delay(500)}>
-              <Text className="font-incon_semibold text-center my-2 text-xl underline">Cancel</Text>
-            </AnimatedTouchableOpacity>
-          </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                setShowPhotoModal(false);
+              }}
+              style={[
+                {
+                  borderRadius: 12,
+                  backgroundColor: '#292524',
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}>
+              <Feather name="x" color="white" size={15} />
+            </TouchableOpacity>
+          </Animated.View>
         )}
       </KeyboardAvoidingView>
     </TouchableOpacity>
