@@ -56,14 +56,16 @@ export default function TabOneScreen() {
 
               return () => clearTimeout(timer);
             }
-          }}>
+          }}
+        >
           <View style={{ flex: 1 }}>
             <View className="w-full flex-row justify-between">
-              <Link asChild href="/add">
+              <Link asChild href="/settings">
                 <TouchableOpacity
                   onPress={() => {
-                    generateFakeData();
-                  }}>
+                    // generateFakeData();
+                  }}
+                >
                   <Feather name="settings" color="#a3a3a3" size={17} />
                 </TouchableOpacity>
               </Link>
@@ -112,7 +114,8 @@ export default function TabOneScreen() {
                     new Date(entry.date).toISOString().replace('T', ' ').substring(0, 19)
                   ),
                 };
-              })}>
+              })}
+          >
             <LineChart height={250}>
               <LineChart.Path>
                 {/* <LineChart.Tooltip at={2} />
@@ -165,7 +168,10 @@ export default function TabOneScreen() {
                     textAlign: 'center',
                     color: '#737373',
                     fontSize: 20,
-                  }}>
+                    paddingVertical: 12,
+                    paddingHorizontal: 24,
+                  }}
+                >
                   Last {item} Days
                 </Animated.Text>
               </View>

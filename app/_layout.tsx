@@ -46,6 +46,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
           <Stack.Screen name="list" options={{ headerShown: false }} />
+          <Stack.Screen name="settings" options={{ headerShown: false }} />
 
           {/* modals */}
           <Stack.Screen
