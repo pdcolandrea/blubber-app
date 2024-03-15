@@ -89,7 +89,8 @@ export default function ModalScreen() {
       onPress={() => {
         Keyboard.dismiss();
       }}
-      className={styles.container}>
+      className={styles.container}
+    >
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       <View className="self-center flex-row items-end">
         <TextInput
@@ -106,7 +107,8 @@ export default function ModalScreen() {
       {(weight === 0 || difference === 0) && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
-          className="text-center font-incon_bold mt-2">
+          className="text-center font-incon_bold mt-2"
+        >
           Today is your day
         </Animated.Text>
       )}
@@ -114,7 +116,8 @@ export default function ModalScreen() {
       {lastEntry && weight !== 0 && difference !== 0 && !goodDay && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
-          className="text-center font-incon_bold mt-2">
+          className="text-center font-incon_bold mt-2 text-neutral-500"
+        >
           {failPrompt}
         </Animated.Text>
       )}
@@ -122,7 +125,8 @@ export default function ModalScreen() {
       {lastEntry && weight !== 0 && difference !== 0 && goodDay && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
-          className="text-center font-incon_bold mt-2">
+          className="text-center font-incon_bold mt-2"
+        >
           You are {lastEntry.weight - weight}
           {unit} skinnier than {dayjs(lastEntry?.date).fromNow()}
         </Animated.Text>
@@ -140,7 +144,8 @@ export default function ModalScreen() {
               Keyboard.dismiss();
               setShowPhotoModal(true);
             }}
-            className="mb-5 pr-8">
+            className="mb-5 pr-8"
+          >
             <View className="flex-row items-center">
               <Text className="text-2xl font-incon_semibold mr-2">
                 {photosToAdd.length === 0
@@ -161,19 +166,22 @@ export default function ModalScreen() {
           <View className="flex-row items-center">
             <TouchableOpacity
               className={`p-3 bg-green-200 rounded-full self-start ${satisfaction === 'happy' && 'border-[#166534] border p-[10px]'}`}
-              onPress={() => setSatisfaction('happy')}>
+              onPress={() => setSatisfaction('happy')}
+            >
               <Feather name="smile" color="#166534" size={17} />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => setSatisfaction('neutral')}
-              className={`p-3 ml-3 bg-yellow-200 rounded-full self-start ${satisfaction === 'neutral' && 'border-[#ca8a04] border p-[10px]'}`}>
+              className={`p-3 ml-3 bg-yellow-200 rounded-full self-start ${satisfaction === 'neutral' && 'border-[#ca8a04] border p-[10px]'}`}
+            >
               <Feather name="smile" color="#ca8a04" size={17} />
             </TouchableOpacity>
 
             <TouchableOpacity
               className={`p-3 ml-3 bg-red-200 rounded-full self-start ${satisfaction === 'sad' && 'border-[#b91c1c] border p-[10px]'}`}
-              onPress={() => setSatisfaction('sad')}>
+              onPress={() => setSatisfaction('sad')}
+            >
               <Feather name="smile" color="#b91c1c" size={17} />
             </TouchableOpacity>
           </View>
@@ -211,7 +219,8 @@ export default function ModalScreen() {
             style={[
               { width: '100%', borderRadius: 12, backgroundColor: '#292524' },
               // addEntryButtonStyle,
-            ]}>
+            ]}
+          >
             <Text className="text-xl font-incon_semibold text-center py-3 text-white">
               Add Entry
             </Text>
@@ -219,14 +228,12 @@ export default function ModalScreen() {
         )}
 
         {showPhotoModal && (
-          <Animated.View
-            entering={SlideInDown.delay(500)}
-            exiting={SlideInUp.delay(500)}
-            className="flex-row gap-2">
+          <Animated.View entering={SlideInDown} exiting={SlideInUp} className="flex-row gap-2">
             <View className="flex-row gap-2 w-4/5 items-center">
               <TouchableOpacity
                 onPress={onTakePhotoPressed}
-                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
+                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}
+              >
                 <Text className="text-xl font-incon_semibold text-center py-3 text-white">
                   Take
                 </Text>
@@ -234,7 +241,8 @@ export default function ModalScreen() {
 
               <TouchableOpacity
                 onPress={onUploadPhotoPressed}
-                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}>
+                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}
+              >
                 <Text className="text-xl font-incon_semibold text-center py-3 text-white">
                   Upload
                 </Text>
@@ -253,7 +261,8 @@ export default function ModalScreen() {
                   alignItems: 'center',
                   justifyContent: 'center',
                 },
-              ]}>
+              ]}
+            >
               <Feather name="x" color="white" size={15} />
             </TouchableOpacity>
           </Animated.View>

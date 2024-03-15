@@ -36,6 +36,7 @@ interface WeightState {
   deleteAllEntries: () => void;
   setUnit: (unit: WeightUnit) => void;
   unit: WeightUnit;
+  getStreak: () => number;
   debugAdd: () => void;
   goal?: {
     weight: number;
@@ -52,6 +53,22 @@ export const useWeightHistory = create<WeightState>()(
       lastEntry: () => {
         const entries = get().entries;
         return entries.sort((a, b) => b.date - a.date)[0];
+      },
+      getStreak: () => {
+        const entries = get().entries;
+        // find days in row weight has been tracked
+        const streak = entries.reduce((acc, entry, index) => {
+          const prevEntry = entries[index - 1];
+          if (prevEntry) {
+            const prevDate = new Date(prevEntry.date);
+            prevDate.setDate(prevDate.getDate() + 1);
+            if (entry.date.getTime() === prevDate.getTime()) {
+              return acc + 1;
+            }
+          }
+          return acc;
+        }, 1);
+        return streak;
       },
       deleteAllEntries: () => set({ entries: [] }),
       setUnit: (unit) => set({ unit }),

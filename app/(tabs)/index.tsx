@@ -37,10 +37,13 @@ export default function TabOneScreen() {
   const refetchEntry = useWeightHistory((store) => store.lastEntry);
   const lastEntry = useWeightHistory((store) => store.lastEntry());
   const generateFakeData = useWeightHistory((store) => store.debugAdd);
+  const streak = useWeightHistory((store) => store.getStreak());
   const userUnit = useWeightHistory((store) => store.unit);
   const openedModal = useRef(false);
 
   const [dateFilter, setDateFilter] = useState(7);
+
+  const userHasValidChart = userHistory.length >= 2;
 
   useEffect(() => {
     // every 1min, refetch lastEntry
@@ -104,7 +107,7 @@ export default function TabOneScreen() {
                 <Text className="font-incon text-xl text-neutral-500">Weekly Goal</Text>
               </Animated.View>
               <Animated.View entering={SlideInLeft.delay(300)}>
-                <Text className="text-2xl font-incon_semibold">2 days</Text>
+                <Text className="text-2xl font-incon_semibold">{streak} days</Text>
                 <Text className="font-incon text-xl text-neutral-500">Streak</Text>
               </Animated.View>
 
@@ -119,7 +122,7 @@ export default function TabOneScreen() {
         </PanGestureHandler>
 
         <View style={{ marginHorizontal: -32 }}>
-          {userHistory.length >= 2 ? (
+          {userHasValidChart ? (
             <LineChart.Provider
               data={userHistory
                 .filter((entry) => dayjs().diff(dayjs(entry.date), 'day') <= dateFilter)
@@ -201,6 +204,7 @@ export default function TabOneScreen() {
             const key = item.item as number;
             setDateFilter(key);
           }}
+          scrollEnabled={userHasValidChart}
           bounces
           style={{ flexGrow: 0, marginBottom: 24 }}
           showsHorizontalScrollIndicator={false}

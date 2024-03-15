@@ -23,7 +23,7 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* <Text className="mt-6 font-incon_semibold text-4xl">Settings</Text> */}
+        <Text className="mt-6 font-incon_semibold text-5xl">Settings</Text>
         <View style={{ flex: 1 }}>
           <View className="mt-10">
             <View className="items-center flex-row">
