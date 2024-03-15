@@ -12,6 +12,7 @@ import {
   Inconsolata_900Black,
 } from '@expo-google-fonts/inconsolata';
 import { Stack } from 'expo-router';
+import { useColorScheme } from 'react-native';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -23,6 +24,7 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  const scheme = useColorScheme();
   const [fontsLoaded] = useFonts({
     Inconsolata_200ExtraLight,
     Inconsolata_300Light,
@@ -37,6 +39,8 @@ export default function RootLayout() {
   if (!fontsLoaded) {
     return null;
   }
+
+  console.warn({ scheme });
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
