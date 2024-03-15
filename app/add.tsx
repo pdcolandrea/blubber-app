@@ -3,7 +3,15 @@ import dayjs from 'dayjs';
 import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Keyboard, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Keyboard,
+  LayoutAnimation,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import Animated, { FadeIn, SlideInDown, SlideInUp } from 'react-native-reanimated';
 
@@ -13,6 +21,12 @@ import { useWeightHistory } from '~/lib/weight-store';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+
+const replaceThousandanths = (weight: number) => {
+  const newLastDigit = weight % 10;
+  const preNumber = Math.floor(weight / 100) * 10;
+  return preNumber + newLastDigit;
+};
 
 export default function ModalScreen() {
   const unit = useWeightHistory((store) => store.unit);
@@ -24,21 +38,41 @@ export default function ModalScreen() {
 
   const [satisfaction, setSatisfaction] = useState<'happy' | 'neutral' | 'sad'>();
   const [showPhotoModal, setShowPhotoModal] = useState(false);
-  const [weight, setWeight] = useState(lastEntry?.weight ?? 0);
+  const [weight, setWeight] = useState(lastEntry?.weight.toString() ?? '0');
+  const weightValue = parseFloat(weight);
   const [photosToAdd, setPhotosToAdd] = useState<string[]>([]);
 
-  const difference = (lastEntry && lastEntry?.weight - weight) ?? 0;
-  const goodDay = (lastEntry && lastEntry.weight >= weight) ?? true;
+  const difference = (lastEntry && lastEntry?.weight - weightValue) ?? 0;
+  const goodDay = (lastEntry && lastEntry.weight >= weightValue) ?? true;
 
   const onWeightChange = useCallback((text: string) => {
     try {
       const newWeight = parseFloat(text);
-      if (newWeight >= 1000) return;
+
+      // if includes decimal, newWeight would otherwise miss 100.X4 place on entry
+      if (text.includes('.')) {
+        // verify that there are only 2 decimal places
+        if (text.split('.')[1].length > 2) {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+          return;
+        }
+
+        setWeight(text);
+        return;
+      }
+
+      // if over 1000, replace last digit with new number
+      if (newWeight >= 1000) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+        setWeight(replaceThousandanths(newWeight).toString());
+        return;
+      }
 
       if (isNaN(newWeight)) {
-        setWeight(0);
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+        setWeight('0');
       } else {
-        setWeight(newWeight);
+        setWeight(newWeight.toString());
       }
     } catch (err) {
       console.warn(err);
@@ -46,7 +80,7 @@ export default function ModalScreen() {
   }, []);
 
   const onSubmitEntryPressed = () => {
-    addEntryMutation({ date: new Date(), satisfaction, weight });
+    addEntryMutation({ date: new Date(), satisfaction, weight: weightValue });
     navigation.goBack();
   };
 
@@ -95,7 +129,7 @@ export default function ModalScreen() {
       <View className="self-center flex-row items-end">
         <TextInput
           autoFocus
-          value={weight.toString()}
+          value={weight}
           editable={!showPhotoModal}
           onChangeText={onWeightChange}
           className="font-incon_semibold text-7xl"
@@ -104,7 +138,7 @@ export default function ModalScreen() {
         <Text className="font-incon text-5xl mb-2 text-neutral-400">{unit}</Text>
       </View>
 
-      {(weight === 0 || difference === 0) && (
+      {(weightValue === 0 || difference === 0) && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
           className="text-center font-incon_bold mt-2"
@@ -113,7 +147,7 @@ export default function ModalScreen() {
         </Animated.Text>
       )}
 
-      {lastEntry && weight !== 0 && difference !== 0 && !goodDay && (
+      {lastEntry && weightValue !== 0 && difference !== 0 && !goodDay && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
           className="text-center font-incon_bold mt-2 text-neutral-500"
@@ -122,12 +156,12 @@ export default function ModalScreen() {
         </Animated.Text>
       )}
 
-      {lastEntry && weight !== 0 && difference !== 0 && goodDay && (
+      {lastEntry && weightValue !== 0 && difference !== 0 && goodDay && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
           className="text-center font-incon_bold mt-2"
         >
-          You are {lastEntry.weight - weight}
+          You are {lastEntry.weight - weightValue}
           {unit} skinnier than {dayjs(lastEntry?.date).fromNow()}
         </Animated.Text>
       )}
@@ -185,8 +219,8 @@ export default function ModalScreen() {
               <Feather name="smile" color="#b91c1c" size={17} />
             </TouchableOpacity>
           </View>
+          <Text className="font-incon text-xl text-neutral-500">Satisfaction</Text>
         </View>
-        <Text className="font-incon text-xl text-neutral-500">Satisfaction</Text>
       </View>
 
       {/* <Text className="mt-6 font-incon_semibold text-neutral-500">Details</Text>
@@ -210,7 +244,7 @@ export default function ModalScreen() {
 
       <View className="flex-1" />
 
-      <KeyboardAvoidingView keyboardVerticalOffset={180} behavior="padding">
+      <KeyboardAvoidingView keyboardVerticalOffset={165} behavior="padding">
         {!showPhotoModal && (
           <AnimatedTouchableOpacity
             entering={SlideInDown}

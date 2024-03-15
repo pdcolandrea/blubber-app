@@ -79,7 +79,7 @@ export default function TabOneScreen() {
         <PanGestureHandler
           onGestureEvent={({ nativeEvent }) => {
             const { velocityY } = nativeEvent;
-            if (velocityY < 0 && !openedModal.current) {
+            if (velocityY <= -100 && !openedModal.current) {
               openedModal.current = true;
               router.push('/add');
 
@@ -153,9 +153,9 @@ export default function TabOneScreen() {
             >
               <LineChart height={250}>
                 <LineChart.Path>
-                  {/* <LineChart.Tooltip at={2} />
+                  {/* <LineChart.Tooltip at={1} /> */}
 
-                <LineChart.Tooltip at={2} /> */}
+                  {/* <LineChart.Tooltip at={2} /> */}
                 </LineChart.Path>
                 <LineChart.CursorCrosshair>
                   <LineChart.Tooltip>
