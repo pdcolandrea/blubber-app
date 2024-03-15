@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Link, router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, Text, TouchableOpacity, View, FlatList } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -17,6 +18,19 @@ const relativeTime = require('dayjs/plugin/relativeTime');
 dayjs.extend(relativeTime);
 
 const screenWidth = Dimensions.get('window').width;
+
+const NO_DATA_WEIGHT = [
+  { value: 220, date: 1678838400 }, // Start: March 15, 2024
+  { value: 219.8, date: 1678924800 }, // Small loss
+  { value: 220.2, date: 1679011200 }, // Slight gain - normal fluctuation
+  { value: 219.6, date: 1679097600 }, // Loss
+  { value: 219.4, date: 1679184000 }, // Small loss
+  { value: 219.5, date: 1679270400 }, // Slight gain - fluctuation
+  { value: 219, date: 1679356800 }, // Loss
+  { value: 218.7, date: 1679443200 }, // Small loss
+  { value: 218.9, date: 1679529600 }, // Slight gain - fluctuation
+  { value: 219.5, date: 1679616000 }, // Loss
+];
 
 export default function TabOneScreen() {
   const userHistory = useWeightHistory((store) => store.entries);
@@ -41,6 +55,7 @@ export default function TabOneScreen() {
 
   return (
     <BaseScreen>
+      <StatusBar animated />
       <SafeAreaView style={{ flex: 1 }}>
         <PanGestureHandler
           onGestureEvent={({ nativeEvent }) => {
@@ -104,44 +119,77 @@ export default function TabOneScreen() {
         </PanGestureHandler>
 
         <View style={{ marginHorizontal: -32 }}>
-          <LineChart.Provider
-            data={userHistory
-              .filter((entry) => dayjs().diff(dayjs(entry.date), 'day') <= dateFilter)
-              .map((entry) => {
-                return {
-                  value: entry.weight,
-                  date: parseFloat(
-                    new Date(entry.date).toISOString().replace('T', ' ').substring(0, 19)
-                  ),
-                };
-              })}
-          >
-            <LineChart height={250}>
-              <LineChart.Path>
-                {/* <LineChart.Tooltip at={2} />
+          {userHistory.length >= 2 ? (
+            <LineChart.Provider
+              data={userHistory
+                .filter((entry) => dayjs().diff(dayjs(entry.date), 'day') <= dateFilter)
+                .map((entry) => {
+                  return {
+                    value: entry.weight,
+                    date: parseFloat(
+                      new Date(entry.date).toISOString().replace('T', ' ').substring(0, 19)
+                    ),
+                  };
+                })}
+            >
+              <LineChart height={250}>
+                <LineChart.Path>
+                  {/* <LineChart.Tooltip at={2} />
 
                 <LineChart.Tooltip at={2} /> */}
-              </LineChart.Path>
-              <LineChart.CursorCrosshair>
-                <LineChart.Tooltip>
-                  <LineChart.PriceText
-                    style={{
-                      fontFamily: 'Inconsolata_600SemiBold',
-                      backgroundColor: 'black',
-                      borderRadius: 4,
-                      color: 'white',
-                      fontSize: 14,
-                      padding: 4,
-                    }}
-                    format={({ value }) => {
-                      'worklet';
-                      return `${value} ${userUnit}`;
-                    }}
-                  />
-                </LineChart.Tooltip>
-              </LineChart.CursorCrosshair>
-            </LineChart>
-          </LineChart.Provider>
+                </LineChart.Path>
+                <LineChart.CursorCrosshair>
+                  <LineChart.Tooltip>
+                    <LineChart.PriceText
+                      style={{
+                        fontFamily: 'Inconsolata_600SemiBold',
+                        backgroundColor: 'black',
+                        borderRadius: 4,
+                        color: 'white',
+                        fontSize: 14,
+                        padding: 4,
+                      }}
+                      format={({ value }) => {
+                        'worklet';
+                        return `${value} ${userUnit}`;
+                      }}
+                    />
+                  </LineChart.Tooltip>
+                </LineChart.CursorCrosshair>
+              </LineChart>
+            </LineChart.Provider>
+          ) : (
+            <View className="relative">
+              <LineChart.Provider data={NO_DATA_WEIGHT}>
+                <LineChart style={{ opacity: 0.3 }} height={250}>
+                  <LineChart.Path color="grey">
+                    {/* <LineChart.Tooltip at={2} />
+
+                <LineChart.Tooltip at={2} /> */}
+                  </LineChart.Path>
+                </LineChart>
+
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    opacity: 0.8,
+                  }}
+                >
+                  <View className="bg-[#45444e] rounded-lg">
+                    <Text className="px-4 py-2 font-incon_semibold text-[#fefefe]">
+                      Not Enough Data
+                    </Text>
+                  </View>
+                </View>
+              </LineChart.Provider>
+            </View>
+          )}
         </View>
 
         <FlatList
