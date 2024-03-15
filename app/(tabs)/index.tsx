@@ -12,6 +12,7 @@ import { LineChart } from 'react-native-wagmi-charts';
 
 import BaseScreen from '~/components/ui/base-screen';
 import WeightText from '~/components/weight-text';
+import { useUserSettings } from '~/lib/user-store';
 import { useWeightHistory } from '~/lib/weight-store';
 
 const relativeTime = require('dayjs/plugin/relativeTime');
@@ -39,6 +40,9 @@ export default function TabOneScreen() {
   const generateFakeData = useWeightHistory((store) => store.debugAdd);
   const streak = useWeightHistory((store) => store.getStreak());
   const userUnit = useWeightHistory((store) => store.unit);
+
+  // const height = useUserSettings((store) => store.heightIn);
+  const height = 72;
   const openedModal = useRef(false);
 
   const [dateFilter, setDateFilter] = useState(7);
@@ -55,6 +59,18 @@ export default function TabOneScreen() {
 
     return () => clearInterval(timer);
   }, []);
+
+  const bmi = useMemo(() => {
+    if (!lastEntry || !height) return null;
+
+    if (userUnit === 'lb') {
+      // calculate bmi in lb and inches
+      return ((lastEntry.weight / (height * height)) * 703).toFixed(1);
+    }
+
+    // calculate bmi in kg and cm
+    return (lastEntry.weight / ((height / 100) * (height / 100))).toFixed(1);
+  }, [lastEntry, height]);
 
   return (
     <BaseScreen>
@@ -112,7 +128,7 @@ export default function TabOneScreen() {
               </Animated.View>
 
               <Animated.View entering={SlideInLeft.delay(600)} className="mt-5">
-                <Text className="text-2xl font-incon_semibold">21.4</Text>
+                <Text className="text-2xl font-incon_semibold">{bmi ?? 'Add Height'}</Text>
                 <Text className="font-incon text-xl text-neutral-500">BMI</Text>
               </Animated.View>
             </View>
