@@ -33,6 +33,7 @@ interface WeightState {
   entries: WeightEntry[];
   addEntry: (entry: WeightEntry) => void;
   lastEntry: () => WeightEntry | undefined;
+  deleteAllEntries: () => void;
   setUnit: (unit: WeightUnit) => void;
   unit: WeightUnit;
   debugAdd: () => void;
@@ -52,6 +53,7 @@ export const useWeightHistory = create<WeightState>()(
         const entries = get().entries;
         return entries.sort((a, b) => b.date - a.date)[0];
       },
+      deleteAllEntries: () => set({ entries: [] }),
       setUnit: (unit) => set({ unit }),
       debugAdd: () =>
         set((state) => {
