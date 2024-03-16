@@ -50,7 +50,11 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
           <Stack.Screen name="list" options={{ headerShown: false }} />
-          <Stack.Screen name="settings" options={{ headerShown: false }} />
+          <Stack.Screen name="settings/index" options={{ headerShown: false }} />
+          <Stack.Screen name="settings/goal" />
+          <Stack.Screen name="settings/motivation" />
+          <Stack.Screen name="settings/reminders" />
+          <Stack.Screen name="settings/units" />
 
           {/* modals */}
           <Stack.Screen
