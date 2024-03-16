@@ -56,18 +56,19 @@ export const useWeightHistory = create<WeightState>()(
       },
       getStreak: () => {
         const entries = get().entries;
-        // find days in row weight has been tracked
+
         const streak = entries.reduce((acc, entry, index) => {
           const prevEntry = entries[index - 1];
           if (prevEntry) {
             const prevDate = new Date(prevEntry.date);
             prevDate.setDate(prevDate.getDate() + 1);
-            if (entry.date.getTime() === prevDate.getTime()) {
+            const entryDate = new Date(entry.date); // ensure entry.date is a Date object
+            if (entryDate.getTime() === prevDate.getTime()) {
               return acc + 1;
             }
           }
           return acc;
-        }, 1);
+        }, 0);
         return streak;
       },
       deleteAllEntries: () => set({ entries: [] }),
