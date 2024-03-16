@@ -144,7 +144,7 @@ export default function ModalScreen() {
       {(weightValue === 0 || difference === 0) && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
-          className="text-center font-incon_bold mt-2"
+          className="text-center text-neutral-500 font-incon_bold mt-2"
         >
           Today is your day
         </Animated.Text>
@@ -162,7 +162,7 @@ export default function ModalScreen() {
       {lastEntry && weightValue !== 0 && difference !== 0 && goodDay && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
-          className="text-center font-incon_bold mt-2"
+          className="text-center font-incon_bold mt-2 text-neutral-500"
         >
           You are {lastEntry.weight - weightValue}
           {unit} skinnier than {dayjs(lastEntry?.date).fromNow()}

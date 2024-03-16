@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { useTheme } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Link, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -37,7 +38,6 @@ export default function TabOneScreen() {
   const userHistory = useWeightHistory((store) => store.entries);
   const refetchEntry = useWeightHistory((store) => store.lastEntry);
   const lastEntry = useWeightHistory((store) => store.lastEntry());
-  const generateFakeData = useWeightHistory((store) => store.debugAdd);
   const streak = useWeightHistory((store) => store.getStreak());
   const userUnit = useWeightHistory((store) => store.unit);
 
@@ -46,6 +46,7 @@ export default function TabOneScreen() {
   const openedModal = useRef(false);
 
   const [dateFilter, setDateFilter] = useState(7);
+  const { dark } = useTheme();
 
   const userHasValidChart = userHistory.length >= 2;
 
@@ -154,7 +155,7 @@ export default function TabOneScreen() {
                 })}
             >
               <LineChart height={250}>
-                <LineChart.Path>
+                <LineChart.Path color={dark ? 'white' : 'black'}>
                   {/* <LineChart.Tooltip at={1} /> */}
 
                   {/* <LineChart.Tooltip at={2} /> */}

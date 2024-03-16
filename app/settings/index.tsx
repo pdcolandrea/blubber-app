@@ -1,7 +1,8 @@
 import { Feather } from '@expo/vector-icons';
 import { Link, useNavigation } from 'expo-router';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { FeatherIcon } from '~/components/icons';
 import BaseScreen from '~/components/ui/base-screen';
 import { useWeightHistory } from '~/lib/weight-store';
 
@@ -10,8 +11,10 @@ export default function SettingsScreen() {
   const { goBack } = useNavigation();
 
   const onDeletePress = () => {
-    console.log('deleting all entries');
-    deleteAllEntries();
+    Alert.alert('Are you sure you want to delete your account?', 'This action cannot be undone.', [
+      { style: 'cancel', text: 'Never Mind' },
+      { style: 'destructive', text: 'Delete', onPress: () => deleteAllEntries() },
+    ]);
   };
 
   return (
@@ -23,13 +26,15 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text className="mt-6 font-incon_semibold text-5xl">Settings</Text>
+        <Text className="mt-6 dark:text-white font-incon_semibold text-5xl">Settings</Text>
         <View style={{ flex: 1 }}>
           <Link asChild href="/settings/goal">
             <TouchableOpacity className="mt-10">
               <View className="items-center flex-row">
-                <Feather name="slack" color="black" size={17} />
-                <Text className="text-2xl font-incon_semibold ml-2">Weight Goal</Text>
+                <FeatherIcon name="slack" size={17} />
+                <Text className="text-2xl font-incon_semibold ml-2 dark:text-white">
+                  Weight Goal
+                </Text>
               </View>
               <Text className="font-incon text-xl text-neutral-500">
                 Edit your jksdj jsdjusj nhere when changing the weight calculation
@@ -41,8 +46,8 @@ export default function SettingsScreen() {
 
           <TouchableOpacity className="">
             <View className="items-center flex-row">
-              <Feather name="slack" color="black" size={17} />
-              <Text className="text-2xl font-incon_semibold ml-2">Motivation</Text>
+              <FeatherIcon name="slack" size={17} />
+              <Text className="dark:text-white text-2xl font-incon_semibold ml-2">Motivation</Text>
             </View>
             <Text className="font-incon text-xl text-neutral-500">
               Enjoy mean quotes and other things to keep you motivated? Try them here.
@@ -53,8 +58,8 @@ export default function SettingsScreen() {
 
           <TouchableOpacity className="">
             <View className="items-center flex-row">
-              <Feather name="slack" color="black" size={17} />
-              <Text className="text-2xl font-incon_semibold ml-2">Units</Text>
+              <FeatherIcon name="slack" size={17} />
+              <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Units</Text>
             </View>
             <Text className="font-incon text-xl text-neutral-500">
               Edit your jksdj jsdjusj nhere when changing the weight calculation
@@ -65,8 +70,8 @@ export default function SettingsScreen() {
 
           <View className="">
             <View className="items-center flex-row">
-              <Feather name="slack" color="black" size={17} />
-              <Text className="text-2xl font-incon_semibold ml-2">Reminders</Text>
+              <FeatherIcon name="slack" size={17} />
+              <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Reminders</Text>
             </View>
             <Text className="font-incon text-xl text-neutral-500">
               Edit your jksdj jsdjusj nhere when changing the weight calculation
