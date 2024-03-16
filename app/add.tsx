@@ -19,6 +19,7 @@ import { getFailedWeightPrompt } from '~/lib/prompts';
 import { useWeightHistory } from '~/lib/weight-store';
 
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { useTheme } from '@react-navigation/native';
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -38,12 +39,15 @@ export default function ModalScreen() {
 
   const [satisfaction, setSatisfaction] = useState<'happy' | 'neutral' | 'sad'>();
   const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [photosToAdd, setPhotosToAdd] = useState<string[]>([]);
   const [weight, setWeight] = useState(lastEntry?.weight.toString() ?? '0');
   const weightValue = parseFloat(weight);
-  const [photosToAdd, setPhotosToAdd] = useState<string[]>([]);
+  const { dark } = useTheme();
 
   const difference = (lastEntry && lastEntry?.weight - weightValue) ?? 0;
   const goodDay = (lastEntry && lastEntry.weight >= weightValue) ?? true;
+
+  const validInput = weightValue >= 10;
 
   const onWeightChange = useCallback((text: string) => {
     try {
@@ -131,7 +135,7 @@ export default function ModalScreen() {
           value={weight}
           editable={!showPhotoModal}
           onChangeText={onWeightChange}
-          className="font-incon_semibold text-7xl"
+          className="font-incon_semibold text-7xl dark:text-white"
           keyboardType="decimal-pad"
         />
         <Text className="font-incon text-5xl mb-2 text-neutral-400">{unit}</Text>
@@ -168,7 +172,7 @@ export default function ModalScreen() {
       <View className="mt-6">
         <View>
           <TouchableOpacity className="mb-5 pr-8 self-start">
-            <Text className="text-2xl font-incon_semibold">-</Text>
+            <Text className="dark:text-white text-2xl font-incon_semibold">-</Text>
             <Text className="font-incon text-xl text-neutral-500">Notes</Text>
           </TouchableOpacity>
 
@@ -180,7 +184,7 @@ export default function ModalScreen() {
             className="mb-5 pr-8"
           >
             <View className="flex-row items-center">
-              <Text className="text-2xl font-incon_semibold mr-2">
+              <Text className="dark:text-white text-2xl font-incon_semibold mr-2">
                 {photosToAdd.length === 0
                   ? '-'
                   : photosToAdd.length === 1
@@ -250,11 +254,14 @@ export default function ModalScreen() {
             exiting={SlideInUp}
             onPress={onSubmitEntryPressed}
             style={[
-              { width: '100%', borderRadius: 12, backgroundColor: '#292524' },
-              // addEntryButtonStyle,
+              {
+                width: '100%',
+                borderRadius: 12,
+                backgroundColor: validInput ? (dark ? 'white' : '#292524') : dark ? 'grey' : 'grey',
+              },
             ]}
           >
-            <Text className="text-xl font-incon_semibold text-center py-3 text-white">
+            <Text className="text-xl dark:text-black font-incon_semibold text-center py-3 text-white">
               Add Entry
             </Text>
           </AnimatedTouchableOpacity>
