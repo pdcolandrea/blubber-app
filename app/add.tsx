@@ -272,18 +272,18 @@ export default function ModalScreen() {
             <View className="flex-row gap-2 w-4/5 items-center">
               <TouchableOpacity
                 onPress={onTakePhotoPressed}
-                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}
+                style={[{ borderRadius: 12, backgroundColor: dark ? 'white' : '#292524', flex: 1 }]}
               >
-                <Text className="text-xl font-incon_semibold text-center py-3 text-white">
+                <Text className="text-xl dark:text-black font-incon_semibold text-center py-3 text-white">
                   Take
                 </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={onUploadPhotoPressed}
-                style={[{ borderRadius: 12, backgroundColor: '#292524', flex: 1 }]}
+                style={[{ borderRadius: 12, backgroundColor: dark ? 'white' : '#292524', flex: 1 }]}
               >
-                <Text className="text-xl font-incon_semibold text-center py-3 text-white">
+                <Text className="text-xl dark:text-black font-incon_semibold text-center py-3 text-white">
                   Upload
                 </Text>
               </TouchableOpacity>
