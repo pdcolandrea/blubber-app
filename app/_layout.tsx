@@ -16,6 +16,8 @@ import { useColorScheme } from 'react-native';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { ThemeProvider, DarkTheme, NavigationContainer } from '@react-navigation/native';
+
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export const unstable_settings = {
@@ -45,23 +47,27 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
-        <Stack>
-          {/* stacks */}
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <ThemeProvider value={DarkTheme}>
+          {/* <NavigationContainer> */}
+          <Stack>
+            {/* stacks */}
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-          <Stack.Screen name="list" options={{ headerShown: false }} />
-          <Stack.Screen name="settings/index" options={{ headerShown: false }} />
-          <Stack.Screen name="settings/goal" />
-          <Stack.Screen name="settings/motivation" />
-          <Stack.Screen name="settings/reminders" />
-          <Stack.Screen name="settings/units" />
+            <Stack.Screen name="list" options={{ headerShown: false }} />
+            <Stack.Screen name="settings/index" options={{ headerShown: false }} />
+            <Stack.Screen name="settings/goal" />
+            <Stack.Screen name="settings/motivation" />
+            <Stack.Screen name="settings/reminders" />
+            <Stack.Screen name="settings/units" />
 
-          {/* modals */}
-          <Stack.Screen
-            name="add"
-            options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
-          />
-        </Stack>
+            {/* modals */}
+            <Stack.Screen
+              name="add"
+              options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
+            />
+          </Stack>
+        </ThemeProvider>
+        {/* </NavigationContainer> */}
       </KeyboardProvider>
     </GestureHandlerRootView>
   );

@@ -8,6 +8,7 @@ import WeightText from '~/components/weight-text';
 import { useWeightHistory } from '~/lib/weight-store';
 
 export default function WeightHistoryList() {
+  const addFakeEntries = useWeightHistory((store) => store.debugAdd);
   const entries = useWeightHistory((store) => store.entries);
   const navigation = useNavigation();
 
@@ -19,7 +20,7 @@ export default function WeightHistoryList() {
             <Feather name="arrow-left" color="#a3a3a3" size={20} />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={addFakeEntries}>
             <Feather name="filter" color="#a3a3a3" size={17} />
           </TouchableOpacity>
         </View>
