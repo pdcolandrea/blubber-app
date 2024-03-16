@@ -44,39 +44,47 @@ export default function SettingsScreen() {
 
           <View className="my-6 h-[2px] w-2/3 self-center bg-neutral-300 rounded-full" />
 
-          <TouchableOpacity className="">
-            <View className="items-center flex-row">
-              <FeatherIcon name="slack" size={17} />
-              <Text className="dark:text-white text-2xl font-incon_semibold ml-2">Motivation</Text>
-            </View>
-            <Text className="font-incon text-xl text-neutral-500">
-              Enjoy mean quotes and other things to keep you motivated? Try them here.
-            </Text>
-          </TouchableOpacity>
+          <Link asChild href="/settings/motivation">
+            <TouchableOpacity className="">
+              <View className="items-center flex-row">
+                <FeatherIcon name="slack" size={17} />
+                <Text className="dark:text-white text-2xl font-incon_semibold ml-2">
+                  Motivation
+                </Text>
+              </View>
+              <Text className="font-incon text-xl text-neutral-500">
+                Enjoy mean quotes and other things to keep you motivated? Try them here.
+              </Text>
+            </TouchableOpacity>
+          </Link>
 
           <View className="my-6 h-[2px] w-2/3 self-center bg-neutral-300 rounded-full" />
 
-          <TouchableOpacity className="">
-            <View className="items-center flex-row">
-              <FeatherIcon name="slack" size={17} />
-              <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Units</Text>
-            </View>
-            <Text className="font-incon text-xl text-neutral-500">
-              Edit your jksdj jsdjusj nhere when changing the weight calculation
-            </Text>
-          </TouchableOpacity>
+          <Link asChild href="/settings/units">
+            <TouchableOpacity className="">
+              <View className="items-center flex-row">
+                <FeatherIcon name="slack" size={17} />
+                <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Units</Text>
+              </View>
+              <Text className="font-incon text-xl text-neutral-500">
+                Edit your jksdj jsdjusj nhere when changing the weight calculation
+              </Text>
+            </TouchableOpacity>
+          </Link>
 
           <View className="my-6 h-[2px] w-2/3 self-center bg-neutral-300 rounded-full" />
 
-          <View className="">
-            <View className="items-center flex-row">
-              <FeatherIcon name="slack" size={17} />
-              <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Reminders</Text>
-            </View>
-            <Text className="font-incon text-xl text-neutral-500">
-              Edit your jksdj jsdjusj nhere when changing the weight calculation
-            </Text>
-          </View>
+          <Link asChild href="/settings/reminders">
+            <TouchableOpacity className="">
+              <View className="items-center flex-row">
+                <FeatherIcon name="slack" size={17} />
+                <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Reminders</Text>
+              </View>
+              <Text className="font-incon text-xl text-neutral-500">
+                Edit your jksdj jsdjusj nhere when changing the weight calculation
+              </Text>
+            </TouchableOpacity>
+          </Link>
 
           <View style={{ flex: 1, justifyContent: 'flex-end' }}>
             <TouchableOpacity

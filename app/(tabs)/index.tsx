@@ -165,7 +165,7 @@ export default function TabOneScreen() {
                     <LineChart.PriceText
                       style={{
                         fontFamily: 'Inconsolata_600SemiBold',
-                        backgroundColor: 'black',
+                        backgroundColor: dark ? '#45444e' : 'black',
                         borderRadius: 4,
                         color: 'white',
                         fontSize: 14,
