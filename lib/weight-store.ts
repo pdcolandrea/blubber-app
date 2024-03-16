@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { zustandStorage } from './zustand-persist';
+import dayjs from 'dayjs';
 
 const generateFakeData = () => {
   const entries = [];
@@ -55,20 +56,22 @@ export const useWeightHistory = create<WeightState>()(
         return entries.sort((a, b) => b.date - a.date)[0];
       },
       getStreak: () => {
-        const entries = get().entries;
+        const entries = get().entries.sort((a, b) => b.date - a.date); // sort entries in descending order
 
-        const streak = entries.reduce((acc, entry, index) => {
-          const prevEntry = entries[index - 1];
-          if (prevEntry) {
-            const prevDate = new Date(prevEntry.date);
-            prevDate.setDate(prevDate.getDate() + 1);
-            const entryDate = new Date(entry.date); // ensure entry.date is a Date object
-            if (entryDate.getTime() === prevDate.getTime()) {
-              return acc + 1;
-            }
+        let streak = 0;
+        const now = new Date();
+
+        for (let i = 0; i < entries.length; i++) {
+          const entryDate = new Date(entries[i].date);
+          const diffInDays = dayjs(now).diff(dayjs(entryDate), 'day');
+
+          if (diffInDays === i) {
+            streak++;
+          } else {
+            break;
           }
-          return acc;
-        }, 0);
+        }
+
         return streak;
       },
       deleteAllEntries: () => set({ entries: [] }),

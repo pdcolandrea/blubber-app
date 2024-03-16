@@ -12,15 +12,17 @@ export default function WeightText(props: WeightTextProps) {
   return (
     <View className="flex-row items-center">
       <Text
-        className={`text-center font-incon_semibold ${size === 'md' && 'text-2xl'} ${size === 'lg' && 'text-7xl'}`}>
+        className={`dark:text-white text-center font-incon_semibold ${size === 'md' && 'text-2xl'} ${size === 'lg' && 'text-7xl'}`}
+      >
         {weight}
       </Text>
       <Text
         className={clsx(
-          'text-center font-incon',
+          'dark:text-white text-center font-incon',
           size === 'md' && 'text-2xl',
           size === 'lg' && 'text-7xl'
-        )}>
+        )}
+      >
         {unit}
       </Text>
     </View>

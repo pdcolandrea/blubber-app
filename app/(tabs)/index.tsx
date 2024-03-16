@@ -123,12 +123,14 @@ export default function TabOneScreen() {
                 <Text className="font-incon text-xl text-neutral-500">Weekly Goal</Text>
               </Animated.View>
               <Animated.View entering={SlideInLeft.delay(300)}>
-                <Text className="text-2xl font-incon_semibold">{streak} days</Text>
+                <Text className="dark:text-white text-2xl font-incon_semibold">{streak} days</Text>
                 <Text className="font-incon text-xl text-neutral-500">Streak</Text>
               </Animated.View>
 
               <Animated.View entering={SlideInLeft.delay(600)} className="mt-5">
-                <Text className="text-2xl font-incon_semibold">{bmi ?? 'Add Height'}</Text>
+                <Text className="dark:text-white text-2xl font-incon_semibold">
+                  {bmi ?? 'Add Height'}
+                </Text>
                 <Text className="font-incon text-xl text-neutral-500">BMI</Text>
               </Animated.View>
             </View>

@@ -12,10 +12,11 @@ export default function BaseScreen(props: BaseScreenProps) {
     <View
       {...rest}
       className={clsx(
-        'flex-1 bg-[#F8F7FE] dark:bg-red-500 pt-4',
+        'flex-1 bg-[#F8F7FE] dark:bg-black pt-4',
         fullScreen ? 'px-0 pt-0' : 'px-8',
         className
-      )}>
+      )}
+    >
       {children}
     </View>
   );
