@@ -128,7 +128,6 @@ export default function ModalScreen() {
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       <View className="self-center flex-row items-end">
         <TextInput
-          autoFocus
           value={weight}
           editable={!showPhotoModal}
           onChangeText={onWeightChange}
@@ -244,7 +243,7 @@ export default function ModalScreen() {
 
       <View className="flex-1" />
 
-      <KeyboardAvoidingView keyboardVerticalOffset={165} behavior="padding">
+      <KeyboardAvoidingView keyboardVerticalOffset={180} behavior="padding">
         {!showPhotoModal && (
           <AnimatedTouchableOpacity
             entering={SlideInDown}

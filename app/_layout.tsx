@@ -16,7 +16,7 @@ import { useColorScheme } from 'react-native';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { ThemeProvider, DarkTheme, NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
 
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
@@ -47,7 +47,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
-        <ThemeProvider value={DarkTheme}>
+        <ThemeProvider value={scheme === 'light' ? DefaultTheme : DarkTheme}>
           {/* <NavigationContainer> */}
           <Stack>
             {/* stacks */}
