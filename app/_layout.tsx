@@ -42,8 +42,6 @@ export default function RootLayout() {
     return null;
   }
 
-  console.warn({ scheme });
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
@@ -53,12 +51,13 @@ export default function RootLayout() {
             {/* stacks */}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-            <Stack.Screen name="list" options={{ headerShown: false }} />
+            <Stack.Screen name="list" options={{ headerShown: false, title: 'Entries' }} />
             <Stack.Screen name="settings/index" options={{ headerShown: false }} />
-            <Stack.Screen name="settings/goal" />
+            <Stack.Screen name="settings/goal" options={{ headerShown: false }} />
             <Stack.Screen name="settings/motivation" />
             <Stack.Screen name="settings/reminders" />
             <Stack.Screen name="settings/units" />
+            <Stack.Screen name="entry/[date]" options={{ title: 'Weight Entry' }} />
 
             {/* modals */}
             <Stack.Screen

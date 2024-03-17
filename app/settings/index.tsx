@@ -4,6 +4,7 @@ import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FeatherIcon } from '~/components/icons';
 import BaseScreen from '~/components/ui/base-screen';
+import NavHeader from '~/components/ui/nav-header';
 import { useWeightHistory } from '~/lib/weight-store';
 
 export default function SettingsScreen() {
@@ -20,11 +21,7 @@ export default function SettingsScreen() {
   return (
     <BaseScreen>
       <SafeAreaView style={{ flex: 1 }}>
-        <View className="w-full flex-row justify-between">
-          <TouchableOpacity onPress={goBack}>
-            <Feather name="arrow-left" color="#a3a3a3" size={20} />
-          </TouchableOpacity>
-        </View>
+        <NavHeader showBack />
 
         <Text className="mt-6 dark:text-white font-incon_semibold text-5xl">Settings</Text>
         <View style={{ flex: 1 }}>
