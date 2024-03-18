@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import HeaderText from '~/components/header';
 import TitleButton from '~/components/title-button';
 import BaseScreen from '~/components/ui/base-screen';
 import NavHeader from '~/components/ui/nav-header';
@@ -57,9 +58,7 @@ export default function WeightGoals() {
               </TouchableOpacity>
             }
           />
-          <Text className="mt-6 mb-10 dark:text-white font-incon_semibold text-5xl">
-            Weight Goal
-          </Text>
+          <HeaderText text="Weight Goal" />
 
           <TitleButton
             overrideHeader={

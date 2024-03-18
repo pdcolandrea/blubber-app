@@ -47,7 +47,7 @@ export default function RootLayout() {
       <KeyboardProvider>
         <ThemeProvider value={scheme === 'light' ? DefaultTheme : DarkTheme}>
           {/* <NavigationContainer> */}
-          <Stack>
+          <Stack screenOptions={{ headerShown: false }}>
             {/* stacks */}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
