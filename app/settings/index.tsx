@@ -3,9 +3,14 @@ import { Link, useNavigation } from 'expo-router';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FeatherIcon } from '~/components/icons';
+import TitleButton from '~/components/title-button';
 import BaseScreen from '~/components/ui/base-screen';
 import NavHeader from '~/components/ui/nav-header';
 import { useWeightHistory } from '~/lib/weight-store';
+
+const Seperator = () => {
+  return <View className="my-6 h-[1px] w-2/3 self-center bg-neutral-300 rounded-full" />;
+};
 
 export default function SettingsScreen() {
   const deleteAllEntries = useWeightHistory((store) => store.deleteAllEntries);
@@ -23,64 +28,42 @@ export default function SettingsScreen() {
       <SafeAreaView style={{ flex: 1 }}>
         <NavHeader showBack />
 
-        <Text className="mt-6 dark:text-white font-incon_semibold text-5xl">Settings</Text>
+        <Text className="mt-6 mb-10 dark:text-white font-incon_semibold text-5xl">Settings</Text>
         <View style={{ flex: 1 }}>
           <Link asChild href="/settings/goal">
-            <TouchableOpacity className="mt-10">
-              <View className="items-center flex-row">
-                <FeatherIcon name="slack" size={17} />
-                <Text className="text-2xl font-incon_semibold ml-2 dark:text-white">
-                  Weight Goal
-                </Text>
-              </View>
-              <Text className="font-incon text-xl text-neutral-500">
-                Edit your jksdj jsdjusj nhere when changing the weight calculation
-              </Text>
-            </TouchableOpacity>
+            <TitleButton
+              header="Weight Goal"
+              description="Edit your jksdj jsdjusj nhere when changing the weight calculation"
+              icon={<FeatherIcon name="slack" size={17} />}
+              showCaret
+            />
           </Link>
-
-          <View className="my-6 h-[2px] w-2/3 self-center bg-neutral-300 rounded-full" />
-
+          <Seperator />
           <Link asChild href="/settings/motivation">
-            <TouchableOpacity className="">
-              <View className="items-center flex-row">
-                <FeatherIcon name="slack" size={17} />
-                <Text className="dark:text-white text-2xl font-incon_semibold ml-2">
-                  Motivation
-                </Text>
-              </View>
-              <Text className="font-incon text-xl text-neutral-500">
-                Enjoy mean quotes and other things to keep you motivated? Try them here.
-              </Text>
-            </TouchableOpacity>
+            <TitleButton
+              header="Motivation"
+              icon={<FeatherIcon name="slack" size={17} />}
+              description="Enjoy mean quotes and other things to keep you motivated? Thats here."
+              showCaret
+            />
           </Link>
-
-          <View className="my-6 h-[2px] w-2/3 self-center bg-neutral-300 rounded-full" />
-
+          <Seperator />
           <Link asChild href="/settings/units">
-            <TouchableOpacity className="">
-              <View className="items-center flex-row">
-                <FeatherIcon name="slack" size={17} />
-                <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Units</Text>
-              </View>
-              <Text className="font-incon text-xl text-neutral-500">
-                Edit your jksdj jsdjusj nhere when changing the weight calculation
-              </Text>
-            </TouchableOpacity>
+            <TitleButton
+              header="Units"
+              icon={<FeatherIcon name="slack" size={17} />}
+              description="Edit your jksdj jsdjusj nhere when changing the weight calculation"
+              showCaret
+            />
           </Link>
-
-          <View className="my-6 h-[2px] w-2/3 self-center bg-neutral-300 rounded-full" />
-
+          <Seperator />
           <Link asChild href="/settings/reminders">
-            <TouchableOpacity className="">
-              <View className="items-center flex-row">
-                <FeatherIcon name="slack" size={17} />
-                <Text className="text-2xl dark:text-white font-incon_semibold ml-2">Reminders</Text>
-              </View>
-              <Text className="font-incon text-xl text-neutral-500">
-                Edit your jksdj jsdjusj nhere when changing the weight calculation
-              </Text>
-            </TouchableOpacity>
+            <TitleButton
+              header="Reminders"
+              icon={<FeatherIcon name="slack" size={17} />}
+              description="Edit your jksdj jsdjusj nhere when changing the weight calculation"
+              showCaret
+            />
           </Link>
 
           <View style={{ flex: 1, justifyContent: 'flex-end' }}>

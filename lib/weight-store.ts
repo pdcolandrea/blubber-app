@@ -39,6 +39,7 @@ interface WeightState {
   unit: WeightUnit;
   getStreak: () => number;
   debugAdd: () => void;
+  setGoal: (goal: { weight: number; date: Date }) => void;
   goal?: {
     weight: number;
     date: Date;
@@ -54,6 +55,9 @@ export const useWeightHistory = create<WeightState>()(
       lastEntry: () => {
         const entries = get().entries;
         return entries.sort((a, b) => b.date - a.date)[0];
+      },
+      setGoal: (g) => {
+        set({ goal: g });
       },
       getStreak: () => {
         const entries = get().entries.sort((a, b) => b.date - a.date); // sort entries in descending order
