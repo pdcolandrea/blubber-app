@@ -11,14 +11,26 @@ import {
   Inconsolata_800ExtraBold,
   Inconsolata_900Black,
 } from '@expo-google-fonts/inconsolata';
-import { Stack } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { Stack, useNavigation } from 'expo-router';
+import { TouchableOpacity, useColorScheme } from 'react-native';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
 
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { Feather } from '@expo/vector-icons';
+import { FeatherIcon } from '~/components/icons';
+
+const GoBack = () => {
+  const { goBack } = useNavigation();
+
+  return (
+    <TouchableOpacity onPress={() => goBack()}>
+      <FeatherIcon name="x" size={20} />
+    </TouchableOpacity>
+  );
+};
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -57,12 +69,20 @@ export default function RootLayout() {
             <Stack.Screen name="settings/motivation" />
             <Stack.Screen name="settings/reminders" />
             <Stack.Screen name="settings/units" />
-            <Stack.Screen name="entry/[date]" options={{ title: 'Weight Entry' }} />
+            <Stack.Screen
+              name="entry/[date]"
+              options={{ title: 'Weight Entry', headerShown: true }}
+            />
 
             {/* modals */}
             <Stack.Screen
               name="add"
-              options={{ presentation: 'modal', headerTitle: 'Add Weight Entry' }}
+              options={{
+                presentation: 'modal',
+                headerTitle: 'Add Weight Entry',
+                headerShown: true,
+                headerRight: GoBack,
+              }}
             />
           </Stack>
         </ThemeProvider>
