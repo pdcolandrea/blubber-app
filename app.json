@@ -13,10 +13,10 @@
       "expo-router",
       "expo-font",
       [
-        "react-native-image-picker",
+        "expo-image-picker",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "The app accesses your photos to let you share them with your friends.",
+          "cameraPermission": "The app accesses your camera to let you take photos and share them with your friends."
         }
       ]
     ],

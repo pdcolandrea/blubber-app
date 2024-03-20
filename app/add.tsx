@@ -18,8 +18,9 @@ import Animated, { FadeIn, SlideInDown, SlideInUp } from 'react-native-reanimate
 import { getFailedWeightPrompt } from '~/lib/prompts';
 import { useWeightHistory } from '~/lib/weight-store';
 
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useTheme } from '@react-navigation/native';
+
+import * as ImagePicker from 'expo-image-picker';
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -95,30 +96,33 @@ export default function ModalScreen() {
   }, [weight]);
 
   const onTakePhotoPressed = () => {
-    launchCamera({ mediaType: 'photo' }, (response) => {
-      if (response.assets && response.assets.length >= 1) {
-        const photo = response.assets[0].uri!;
-
-        setShowPhotoModal(false);
-        setPhotosToAdd((photos) => [...photos, photo]);
-      }
+    // launchCamera({ mediaType: 'photo' }, (response) => {
+    //   if (response.assets && response.assets.length >= 1) {
+    //     const photo = response.assets[0].uri!;
+    //     setShowPhotoModal(false);
+    //     setPhotosToAdd((photos) => [...photos, photo]);
+    //   }
+    // });
+    ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+      selectionLimit: 3,
     });
   };
 
   const onUploadPhotoPressed = () => {
-    launchImageLibrary({ mediaType: 'photo', selectionLimit: 5 }, (response) => {
-      if (response.assets && response.assets.length >= 1) {
-        let newPhotos: string[] = [];
-        response.assets.forEach((asset) => {
-          if (asset.uri) {
-            newPhotos = [...newPhotos, asset.uri];
-          }
-        });
-
-        setShowPhotoModal(false);
-        setPhotosToAdd((p) => [...p, ...newPhotos]);
-      }
-    });
+    // launchImageLibrary({ mediaType: 'photo', selectionLimit: 5 }, (response) => {
+    //   if (response.assets && response.assets.length >= 1) {
+    //     let newPhotos: string[] = [];
+    //     response.assets.forEach((asset) => {
+    //       if (asset.uri) {
+    //         newPhotos = [...newPhotos, asset.uri];
+    //       }
+    //     });
+    //     setShowPhotoModal(false);
+    //     setPhotosToAdd((p) => [...p, ...newPhotos]);
+    //   }
+    // });
   };
 
   return (
