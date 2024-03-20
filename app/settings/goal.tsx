@@ -16,7 +16,8 @@ export default function WeightGoals() {
   const weightGoal = useWeightHistory((store) => store.goal);
   const setGoal = useWeightHistory((store) => store.setGoal);
 
-  const { value, onValueCange } = useNumberInput(weightGoal?.weight.toFixed(1) || '0');
+  const initialValue = weightGoal ? weightGoal.weight.toFixed(1) : '0';
+  const { value, onValueCange } = useNumberInput(initialValue);
   const weightInput = useRef<TextInput>();
 
   const navigation = useNavigation();
@@ -85,7 +86,7 @@ export default function WeightGoals() {
                   exiting={FadeOutRight}
                   className={`text-2xl font-incon_semibold dark:text-white `}
                 >
-                  {`${weightGoal?.weight.toFixed(1)}lb` || 'No Current Goal'}
+                  {weightGoal ? `${weightGoal.weight.toFixed(1)}lb` : 'No Current Goal'}
                 </Animated.Text>
               )
             }

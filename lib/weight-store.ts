@@ -78,7 +78,7 @@ export const useWeightHistory = create<WeightState>()(
 
         return streak;
       },
-      deleteAllEntries: () => set({ entries: [] }),
+      deleteAllEntries: () => set({ entries: [], goal: undefined }),
       setUnit: (unit) => set({ unit }),
       debugAdd: () =>
         set((state) => {

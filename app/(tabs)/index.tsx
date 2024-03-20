@@ -37,6 +37,7 @@ const NO_DATA_WEIGHT = [
 export default function TabOneScreen() {
   const userHistory = useWeightHistory((store) => store.entries);
   const refetchEntry = useWeightHistory((store) => store.lastEntry);
+  const weightGoal = useWeightHistory((store) => store.goal);
   const lastEntry = useWeightHistory((store) => store.lastEntry());
   const streak = useWeightHistory((store) => store.getStreak());
   const userUnit = useWeightHistory((store) => store.unit);
@@ -112,16 +113,33 @@ export default function TabOneScreen() {
             </View>
 
             <View className="flex-row items-center justify-center mt-10 ">
-              <WeightText weight={lastEntry?.weight ?? 0} size="lg" />
+              {lastEntry ? (
+                <WeightText weight={lastEntry.weight} size="lg" />
+              ) : (
+                <Text className="dark:text-white text-5xl font-incon_semibold">First Entry</Text>
+              )}
             </View>
             <Text className="font-incon text-center text-neutral-500 my-4">
-              {dayjs(lastEntry?.date ?? new Date()).fromNow()}
+              {lastEntry ? dayjs(lastEntry?.date ?? new Date()).fromNow() : "Let's get started"}
             </Text>
 
             <View className="mt-6">
               <Animated.View entering={SlideInLeft} className="mb-5">
-                <WeightText weight={195.32} />
-                <Text className="font-incon text-xl text-neutral-500">Weekly Goal</Text>
+                {weightGoal ? (
+                  <>
+                    <WeightText weight={weightGoal.weight} />
+                    <Text className="font-incon text-xl text-neutral-500">Weekly Goal</Text>
+                  </>
+                ) : (
+                  <Link asChild href="/settings/goal">
+                    <TouchableOpacity>
+                      <Text className="dark:text-white text-2xl font-incon_semibold">
+                        No Goal Set
+                      </Text>
+                      <Text className="font-incon text-xl text-neutral-500">Weekly Goal</Text>
+                    </TouchableOpacity>
+                  </Link>
+                )}
               </Animated.View>
               <Animated.View entering={SlideInLeft.delay(300)}>
                 <Text className="dark:text-white text-2xl font-incon_semibold">{streak} days</Text>
