@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Blubber",
-    "slug": "blubber",
+    "name": "blubber",
+    "slug": "weight-tracker",
     "version": "1.0.1",
     "scheme": "blubber",
     "web": {
@@ -35,7 +35,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pdcolandrea.tonnagetracker",
+      "bundleIdentifier": "com.pdcolandrea.blubber",
       "userInterfaceStyle": "automatic"
     },
     "android": {
@@ -44,7 +44,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pdcolandrea.tonnagetracker"
+      "package": "com.pdcolandrea.blubber"
     },
     "extra": {
       "router": {

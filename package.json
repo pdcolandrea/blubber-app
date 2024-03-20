@@ -1,5 +1,5 @@
 {
-  "name": "weight-tracker",
+  "name": "blubber",
   "version": "1.0.0",
   "scripts": {
     "android": "expo run:android",
