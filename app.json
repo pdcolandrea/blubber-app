@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "weight-tracker",
-    "slug": "weight-tracker",
-    "version": "1.0.0",
-    "scheme": "weight-tracker",
+    "name": "Blubber",
+    "slug": "blubber",
+    "version": "1.0.1",
+    "scheme": "blubber",
     "web": {
       "bundler": "metro",
       "output": "static",
