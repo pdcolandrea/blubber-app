@@ -79,7 +79,26 @@ export const useWeightHistory = create<WeightState>()(
         return streak;
       },
       deleteAllEntries: () => set({ entries: [], goal: undefined }),
-      setUnit: (unit) => set({ unit }),
+      setUnit: (newUnit) => {
+        let entries: WeightEntry[] = get().entries;
+        if (newUnit === 'lb') {
+          entries = entries.map((entry) => {
+            return {
+              ...entry,
+              weight: parseFloat((entry.weight * 2.20462).toFixed(2)),
+            };
+          });
+        } else {
+          entries = entries.map((entry) => {
+            return {
+              ...entry,
+              weight: parseFloat((entry.weight / 2.20462).toFixed(2)),
+            };
+          });
+        }
+
+        return set({ unit: newUnit, entries });
+      },
       debugAdd: () =>
         set((state) => {
           const entries = generateFakeData();

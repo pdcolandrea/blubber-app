@@ -29,6 +29,9 @@ export default function WeightGoals() {
   }, [editingWeightGoal]);
 
   const updateGoal = () => {
+    // avoids 0.0 getting set as goal
+    if (value === '0') return;
+
     setGoal({
       weight: parseFloat(value),
       date: new Date(),
@@ -39,7 +42,6 @@ export default function WeightGoals() {
     <BaseScreen>
       <TouchableOpacity
         onPress={() => {
-          updateGoal();
           setEditingWeightGoal(false);
           Keyboard.dismiss();
         }}
