@@ -7,13 +7,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, Text, TouchableOpacity, View, FlatList } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 
-import Animated, { FadeIn, SlideInLeft } from 'react-native-reanimated';
+import Animated, { FadeIn, SlideInLeft, runOnJS } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LineChart } from 'react-native-wagmi-charts';
 
 import BaseScreen from '~/components/ui/base-screen';
 import WeightText from '~/components/weight-text';
-import { useUserSettings } from '~/lib/user-store';
 import { useWeightHistory } from '~/lib/weight-store';
 
 const relativeTime = require('dayjs/plugin/relativeTime');
@@ -41,6 +40,9 @@ export default function TabOneScreen() {
   const lastEntry = useWeightHistory((store) => store.lastEntry());
   const streak = useWeightHistory((store) => store.getStreak());
   const userUnit = useWeightHistory((store) => store.unit);
+
+  const chartLow = useRef(0);
+  const chartHigh = useRef(0);
 
   // const height = useUserSettings((store) => store.heightIn);
   const height = 72;
@@ -73,6 +75,11 @@ export default function TabOneScreen() {
     // calculate bmi in kg and cm
     return (lastEntry.weight / ((height / 100) * (height / 100))).toFixed(1);
   }, [lastEntry, height]);
+
+  const formatDate = (date: number) => {
+    console.log({ date });
+    return dayjs(date).format('MM/DD @ ha').toUpperCase();
+  };
 
   return (
     <BaseScreen>
@@ -163,22 +170,49 @@ export default function TabOneScreen() {
             <LineChart.Provider
               data={userHistory
                 .filter((entry) => dayjs().diff(dayjs(entry.date), 'day') <= dateFilter)
-                .map((entry) => {
+                .sort((a, b) => a.date - b.date)
+                .map((entry, index) => {
+                  if (entry.weight < chartLow.current) chartLow.current = index;
+                  if (entry.weight > chartHigh.current) chartHigh.current = index;
+
                   return {
                     value: entry.weight,
-                    date: parseFloat(
-                      new Date(entry.date).toISOString().replace('T', ' ').substring(0, 19)
-                    ),
+                    timestamp: new Date(entry.weight).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      second: '2-digit',
+                    }),
                   };
                 })}
             >
               <LineChart height={250}>
                 <LineChart.Path color={dark ? 'white' : 'black'}>
-                  {/* <LineChart.Tooltip at={1} /> */}
+                  {/* <LineChart.Tooltip at={chartLow.current} /> */}
 
-                  {/* <LineChart.Tooltip at={2} /> */}
+                  {/* <LineChart.Tooltip at={chartHigh.current} /> */}
                 </LineChart.Path>
                 <LineChart.CursorCrosshair>
+                  <LineChart.Tooltip position="bottom">
+                    <LineChart.DatetimeText
+                      style={{
+                        fontFamily: 'Inconsolata_600SemiBold',
+                        backgroundColor: dark ? '#45444e' : 'black',
+                        borderRadius: 4,
+                        color: 'white',
+                        fontSize: 14,
+                        padding: 4,
+                      }}
+                      format={({ value }) => {
+                        'worklet';
+                        return runOnJS(formatDate)(value);
+
+                        // return `${dayjs(value).format('MM/DD @ ha').toUpperCase()}`;
+                      }}
+                    />
+                  </LineChart.Tooltip>
                   <LineChart.Tooltip>
                     <LineChart.PriceText
                       style={{

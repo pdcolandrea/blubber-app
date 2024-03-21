@@ -42,6 +42,7 @@ export default function WeightGoals() {
     <BaseScreen>
       <TouchableOpacity
         onPress={() => {
+          updateGoal();
           setEditingWeightGoal(false);
           Keyboard.dismiss();
         }}
