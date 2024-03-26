@@ -20,6 +20,7 @@ export const saveImageToFileSystem = (tempUri: string) => {
       wasSuccess = true;
     })
     .catch((err) => {
+      console.warn('unable to save image');
       console.warn(err.message);
     });
 
@@ -27,6 +28,42 @@ export const saveImageToFileSystem = (tempUri: string) => {
     fileName: fileName,
     success: wasSuccess,
   };
+};
+
+export const deleteImageFromFileSystem = (filename: string) => {
+  const path = `${rnfs.DocumentDirectoryPath}/${filename}`;
+  let wasSuccess = false;
+
+  rnfs
+    .unlink(path)
+    .then(() => {
+      console.log('FILE DELETED');
+      wasSuccess = true;
+    })
+    .catch((err) => {
+      console.warn(err.message);
+    });
+
+  return {
+    fileName: filename,
+    success: wasSuccess,
+  };
+};
+
+export const deleteImagesFromFileSystem = (filenames?: string[] | undefined) => {
+  if (!filenames)
+    return [
+      {
+        success: false,
+        fileName: '',
+      },
+    ];
+
+  const results = filenames?.map((filename) => {
+    return deleteImageFromFileSystem(filename);
+  });
+
+  return results;
 };
 
 export const saveImagesToFileSystem = (tempUris: string[]) => {

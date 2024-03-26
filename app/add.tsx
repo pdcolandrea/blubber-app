@@ -14,7 +14,12 @@ import {
   View,
 } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
-import Animated, { FadeIn, SlideInDown, SlideInUp } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadingTransition,
+  SlideInDown,
+  SlideInUp,
+} from 'react-native-reanimated';
 
 import { getFailedWeightPrompt } from '~/lib/prompts';
 import { useWeightHistory } from '~/lib/weight-store';
@@ -97,7 +102,12 @@ export default function ModalScreen() {
       Alert.alert(err?.message);
     }
 
-    addEntryMutation({ date: new Date(), satisfaction, weight: weightValue, images });
+    addEntryMutation({
+      date: new Date().toISOString(),
+      satisfaction,
+      weight: weightValue,
+      images: photosToAdd.length >= 1 ? images : undefined,
+    });
     navigation.goBack();
   };
 
@@ -233,6 +243,7 @@ export default function ModalScreen() {
                     ? `1 Photo`
                     : `${photosToAdd.length} Photos`}
               </Text>
+
               {photosToAdd.length >= 1 && (
                 <TouchableOpacity onPress={() => setPhotosToAdd([])}>
                   <Feather name="x" size={15} />

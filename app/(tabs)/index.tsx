@@ -78,7 +78,9 @@ export default function TabOneScreen() {
 
   const formatDate = (date: number) => {
     console.log({ date });
-    return dayjs(date).format('MM/DD @ ha').toUpperCase();
+    const day = dayjs(date).format('MM/DD @ ha').toUpperCase();
+    console.log({ day });
+    return day;
   };
 
   const onLayout = () => {
@@ -184,7 +186,7 @@ export default function TabOneScreen() {
 
                   return {
                     value: entry.weight,
-                    timestamp: new Date(entry.weight).toLocaleDateString('en-US', {
+                    timestamp: new Date(entry.date).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: '2-digit',
                       day: '2-digit',
@@ -216,7 +218,7 @@ export default function TabOneScreen() {
                         'worklet';
                         return runOnJS(formatDate)(value);
 
-                        // return `${dayjs(value).format('MM/DD @ ha').toUpperCase()}`;
+                        return `${dayjs(value).format('MM/DD @ ha').toUpperCase()}`;
                       }}
                     />
                   </LineChart.Tooltip>

@@ -55,14 +55,16 @@ export const useWeightHistory = create<WeightState>()(
       entries: [],
       unit: 'lb',
       addEntry: (entry) =>
-        set((state) => ({
-          ...state,
-          entries: [...state.entries, { ...entry, id: state.entries.length + 1 }],
-        })),
+        set((state) => {
+          return {
+            ...state,
+            entries: [...state.entries, { ...entry, id: state.entries.length + 1 }],
+          };
+        }),
       getEntry: (id: number) => get().entries.find((entry) => entry.id === id),
       lastEntry: () => {
         const entries = get().entries;
-        return entries.sort((a, b) => b.date - a.date)[0];
+        return entries.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
       },
       setGoal: (g) => {
         set({ goal: g });
@@ -108,7 +110,7 @@ export const useWeightHistory = create<WeightState>()(
         return set({ unit: newUnit, entries });
       },
       debugAdd: () =>
-        set((state) => {
+        set((_state) => {
           const entries = generateFakeData();
           return { entries };
         }),

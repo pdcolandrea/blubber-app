@@ -6,6 +6,7 @@ import { FeatherIcon } from '~/components/icons';
 import TitleButton from '~/components/title-button';
 import BaseScreen from '~/components/ui/base-screen';
 import NavHeader from '~/components/ui/nav-header';
+import { deleteImagesFromFileSystem } from '~/lib/image-filesystem';
 import { useWeightHistory } from '~/lib/weight-store';
 
 const Seperator = () => {
@@ -13,13 +14,23 @@ const Seperator = () => {
 };
 
 export default function SettingsScreen() {
+  const entries = useWeightHistory((store) => store.entries);
   const deleteAllEntries = useWeightHistory((store) => store.deleteAllEntries);
   const { goBack } = useNavigation();
+
+  const handleDeletion = () => {
+    entries.forEach((e) => {
+      if (e.images && e.images.length >= 1) {
+        deleteImagesFromFileSystem(e.images);
+      }
+    });
+    deleteAllEntries();
+  };
 
   const onDeletePress = () => {
     Alert.alert('Are you sure you want to delete your account?', 'This action cannot be undone.', [
       { style: 'cancel', text: 'Never Mind' },
-      { style: 'destructive', text: 'Delete', onPress: () => deleteAllEntries() },
+      { style: 'destructive', text: 'Delete', onPress: handleDeletion },
     ]);
   };
 
