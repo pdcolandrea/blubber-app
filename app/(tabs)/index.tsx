@@ -43,10 +43,10 @@ export default function TabOneScreen() {
 
   const chartLow = useRef(0);
   const chartHigh = useRef(0);
-
-  // const height = useUserSettings((store) => store.heightIn);
-  const height = 72;
   const openedModal = useRef(false);
+  const ref = useRef<FlatList>(null);
+
+  const height = 72;
 
   const [dateFilter, setDateFilter] = useState(7);
   const { dark } = useTheme();
@@ -79,6 +79,13 @@ export default function TabOneScreen() {
   const formatDate = (date: number) => {
     console.log({ date });
     return dayjs(date).format('MM/DD @ ha').toUpperCase();
+  };
+
+  const onLayout = () => {
+    ref.current?.scrollToIndex({
+      index: 0,
+      viewPosition: 0.5,
+    });
   };
 
   return (
@@ -269,6 +276,8 @@ export default function TabOneScreen() {
         <FlatList
           data={[7, 14, 21]}
           horizontal
+          onLayout={onLayout}
+          ref={ref}
           // pagingEnabled
           onViewableItemsChanged={({ viewableItems, changed }) => {
             const [item] = viewableItems;
@@ -285,7 +294,7 @@ export default function TabOneScreen() {
           renderItem={({ item, index }) => {
             return (
               <View style={{ width: screenWidth }}>
-                <Animated.Text
+                <Text
                   style={{
                     fontFamily: 'Inconsolata_400Regular',
                     textAlign: 'center',
@@ -296,7 +305,7 @@ export default function TabOneScreen() {
                   }}
                 >
                   Last {item} Days
-                </Animated.Text>
+                </Text>
               </View>
             );
           }}

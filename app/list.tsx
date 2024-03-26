@@ -30,7 +30,7 @@ export default function WeightHistoryList() {
           ItemSeparatorComponent={() => <View className="w-full h-1" />}
           renderItem={({ item, index }) => {
             return (
-              <Link asChild href="/entry/hello">
+              <Link asChild href={`/entry/${item.id}`}>
                 <TouchableOpacity className="flex-row justify-between items-center">
                   <View className="flex-row items-center">
                     <Text className="font-incon_semibold text-neutral-500 text-xl">

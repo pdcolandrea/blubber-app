@@ -70,7 +70,7 @@ export default function RootLayout() {
             <Stack.Screen name="settings/reminders" />
             <Stack.Screen name="settings/units" />
             <Stack.Screen
-              name="entry/[date]"
+              name="entry/[id]"
               options={{ title: 'Weight Entry', headerShown: true }}
             />
 

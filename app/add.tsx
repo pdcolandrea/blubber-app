@@ -95,7 +95,7 @@ export default function ModalScreen() {
     return getFailedWeightPrompt(Math.abs(difference), dayjs(lastEntry?.date).fromNow());
   }, [weight]);
 
-  const onTakePhotoPressed = () => {
+  const onTakePhotoPressed = async () => {
     // launchCamera({ mediaType: 'photo' }, (response) => {
     //   if (response.assets && response.assets.length >= 1) {
     //     const photo = response.assets[0].uri!;
@@ -103,14 +103,25 @@ export default function ModalScreen() {
     //     setPhotosToAdd((photos) => [...photos, photo]);
     //   }
     // });
-    ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsMultipleSelection: true,
+
+    const result = await ImagePicker.launchCameraAsync({
       selectionLimit: 3,
+      allowsMultipleSelection: true,
+      allowsEditing: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
+    if (result.assets && result.assets.length >= 1) {
+      result.assets.forEach((asset) => {
+        if (asset.uri) {
+          setPhotosToAdd((p) => [...p, asset.uri]);
+        }
+      });
+    }
+
+    setShowPhotoModal(false);
   };
 
-  const onUploadPhotoPressed = () => {
+  const onUploadPhotoPressed = async () => {
     // launchImageLibrary({ mediaType: 'photo', selectionLimit: 5 }, (response) => {
     //   if (response.assets && response.assets.length >= 1) {
     //     let newPhotos: string[] = [];
@@ -123,6 +134,11 @@ export default function ModalScreen() {
     //     setPhotosToAdd((p) => [...p, ...newPhotos]);
     //   }
     // });
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+      selectionLimit: 3,
+    });
   };
 
   return (

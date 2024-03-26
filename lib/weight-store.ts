@@ -21,6 +21,7 @@ const generateFakeData = () => {
 };
 
 interface WeightEntry {
+  id: number;
   date: Date;
   weight: number;
   satisfaction?: 'happy' | 'neutral' | 'sad';
@@ -32,7 +33,8 @@ type WeightUnit = 'lb' | 'kg';
 
 interface WeightState {
   entries: WeightEntry[];
-  addEntry: (entry: WeightEntry) => void;
+  addEntry: (entry: Omit<WeightEntry, 'id'>) => void;
+  getEntry: (id: WeightEntry['id']) => WeightEntry | undefined;
   lastEntry: () => WeightEntry | undefined;
   deleteAllEntries: () => void;
   setUnit: (unit: WeightUnit) => void;
@@ -51,7 +53,12 @@ export const useWeightHistory = create<WeightState>()(
     (set, get) => ({
       entries: [],
       unit: 'lb',
-      addEntry: (entry) => set((state) => ({ entries: state.entries.concat(entry) })),
+      addEntry: (entry) =>
+        set((state) => ({
+          ...state,
+          entries: [...state.entries, { ...entry, id: state.entries.length + 1 }],
+        })),
+      getEntry: (id: number) => get().entries.find((entry) => entry.id === id),
       lastEntry: () => {
         const entries = get().entries;
         return entries.sort((a, b) => b.date - a.date)[0];
