@@ -162,12 +162,12 @@ export default function TabOneScreen() {
                 <Text className="font-incon text-xl text-neutral-500">Streak</Text>
               </Animated.View>
 
-              <Animated.View entering={SlideInLeft.delay(600)} className="mt-5">
+              {/* <Animated.View entering={SlideInLeft.delay(600)} className="mt-5">
                 <Text className="dark:text-white text-2xl font-incon_semibold">
                   {bmi ?? 'Add Height'}
                 </Text>
                 <Text className="font-incon text-xl text-neutral-500">BMI</Text>
-              </Animated.View>
+              </Animated.View> */}
             </View>
 
             <View className="flex-1" />
