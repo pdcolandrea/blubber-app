@@ -10,6 +10,7 @@ const generateFakeData = () => {
     const date = new Date();
     date.setDate(date.getDate() - i);
     entries.push({
+      id: i,
       date,
       weight: Math.floor(Math.random() * 100) + 200,
       satisfaction: ['happy', 'neutral', 'sad'][Math.floor(Math.random() * 3)],
@@ -22,7 +23,7 @@ const generateFakeData = () => {
 
 interface WeightEntry {
   id: number;
-  date: Date;
+  date: string;
   weight: number;
   satisfaction?: 'happy' | 'neutral' | 'sad';
   note?: string;
@@ -67,7 +68,7 @@ export const useWeightHistory = create<WeightState>()(
         set({ goal: g });
       },
       getStreak: () => {
-        const entries = get().entries.sort((a, b) => b.date - a.date); // sort entries in descending order
+        const entries = get().entries;
 
         let streak = 0;
         const now = new Date();

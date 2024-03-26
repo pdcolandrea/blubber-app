@@ -4,6 +4,7 @@ import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Alert,
   Keyboard,
   LayoutAnimation,
   Platform,
@@ -21,6 +22,7 @@ import { useWeightHistory } from '~/lib/weight-store';
 import { useTheme } from '@react-navigation/native';
 
 import * as ImagePicker from 'expo-image-picker';
+import { saveImagesToFileSystem, uriToFilename } from '~/lib/image-filesystem';
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -85,7 +87,17 @@ export default function ModalScreen() {
   }, []);
 
   const onSubmitEntryPressed = () => {
-    addEntryMutation({ date: new Date(), satisfaction, weight: weightValue });
+    const images = photosToAdd.map((p) => {
+      return uriToFilename(p);
+    });
+
+    try {
+      saveImagesToFileSystem(photosToAdd);
+    } catch (err) {
+      Alert.alert(err?.message);
+    }
+
+    addEntryMutation({ date: new Date(), satisfaction, weight: weightValue, images });
     navigation.goBack();
   };
 
@@ -139,6 +151,16 @@ export default function ModalScreen() {
       allowsMultipleSelection: true,
       selectionLimit: 3,
     });
+
+    if (result.assets && result.assets.length >= 1) {
+      result.assets.forEach((asset) => {
+        if (asset.uri) {
+          setPhotosToAdd((p) => [...p, asset.uri]);
+        }
+      });
+    }
+
+    setShowPhotoModal(false);
   };
 
   return (

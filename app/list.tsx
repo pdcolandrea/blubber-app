@@ -25,7 +25,7 @@ export default function WeightHistoryList() {
         />
 
         <FlatList
-          data={entries.sort((a, b) => b.date - a.date)}
+          data={entries.sort((a, b) => b.id - a.id)}
           style={{ marginTop: 24 }}
           ItemSeparatorComponent={() => <View className="w-full h-1" />}
           renderItem={({ item, index }) => {

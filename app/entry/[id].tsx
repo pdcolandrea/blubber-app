@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Text } from 'react-native';
+import { Text, Image } from 'react-native';
 import BaseScreen from '~/components/ui/base-screen';
+import { retreivePathsForEntries } from '~/lib/image-filesystem';
 import { useWeightHistory } from '~/lib/weight-store';
 
 export default function WeightEntryScreen() {
@@ -15,9 +16,12 @@ export default function WeightEntryScreen() {
     );
   }
 
+  const images = retreivePathsForEntries(entry.images);
+
   return (
     <BaseScreen>
       <Text>entry</Text>
+      <Image source={{ uri: images[0] }} style={{ width: 200, height: 200 }} />
       <Text>{JSON.stringify(entry)}</Text>
     </BaseScreen>
   );
