@@ -15,7 +15,7 @@ const generateFakeData = () => {
       weight: Math.floor(Math.random() * 100) + 200,
       satisfaction: ['happy', 'neutral', 'sad'][Math.floor(Math.random() * 3)],
       note: 'This is a note',
-      images: 'https://via.placeholder.com/150',
+      images: ['https://via.placeholder.com/150'],
     });
   }
   return entries;

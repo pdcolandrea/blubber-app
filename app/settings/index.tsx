@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { Link, useNavigation } from 'expo-router';
+import { Link, useNavigation, useRouter } from 'expo-router';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FeatherIcon } from '~/components/icons';
@@ -17,14 +17,20 @@ export default function SettingsScreen() {
   const entries = useWeightHistory((store) => store.entries);
   const deleteAllEntries = useWeightHistory((store) => store.deleteAllEntries);
   const { goBack } = useNavigation();
+  const router = useRouter();
 
   const handleDeletion = () => {
-    entries.forEach((e) => {
-      if (e.images && e.images.length >= 1) {
-        deleteImagesFromFileSystem(e.images);
-      }
-    });
+    try {
+      entries.forEach((e) => {
+        if (e.images && e.images.length >= 1) {
+          deleteImagesFromFileSystem(e.images);
+        }
+      });
+    } catch (err) {
+      console.warn(err.messaage);
+    }
     deleteAllEntries();
+    router.navigate('/(tabs)/');
   };
 
   const onDeletePress = () => {

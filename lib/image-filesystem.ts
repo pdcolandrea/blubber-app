@@ -77,6 +77,8 @@ export const retreivePathForEntry = (filename: string) => {
 };
 
 export const retreivePathsForEntries = (filenames?: string[]) => {
+  if (!filenames) return [];
+
   const paths = filenames?.map((filename) => retreivePathForEntry(filename));
   return paths;
 };
