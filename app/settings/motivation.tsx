@@ -18,7 +18,7 @@ export default function EditMotivationScreen() {
 
         <View className="flex-row items-center justify-between">
           <View className="flex-1">
-            <Text className="font-incon_semibold text-2xl">"Hard" Motiviation</Text>
+            <Text className="font-incon_semibold dark:text-white text-2xl">"Hard" Motiviation</Text>
             <DescriptionText>
               This will show you mean quotes and other things to keep you motivated.
             </DescriptionText>

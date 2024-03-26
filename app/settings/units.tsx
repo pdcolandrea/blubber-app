@@ -18,7 +18,7 @@ export default function EditUnitsScreen() {
 
         <View className="flex-row items-center justify-between">
           <View className="flex-1">
-            <Text className="font-incon_semibold text-2xl">Use Pounds</Text>
+            <Text className="font-incon_semibold dark:text-white text-2xl">Use Pounds</Text>
             <DescriptionText>
               This will allow you to switch between pounds and kilograms for weight measurements.
             </DescriptionText>

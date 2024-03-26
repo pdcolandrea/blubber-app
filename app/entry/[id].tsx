@@ -22,7 +22,7 @@ export default function WeightEntryScreen() {
     <BaseScreen>
       <Text>entry</Text>
       <Image source={{ uri: images[0] }} style={{ width: 200, height: 200 }} />
-      <Text>{JSON.stringify(entry)}</Text>
+      <Text className="dark:text-white">{JSON.stringify(entry)}</Text>
     </BaseScreen>
   );
 }
