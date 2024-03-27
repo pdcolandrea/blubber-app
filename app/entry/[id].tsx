@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { useLocalSearchParams } from 'expo-router';
 import { Text, Image, View, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import SatisfactionIcon from '~/components/icons/satisfaction';
 import BaseScreen from '~/components/ui/base-screen';
 import NavHeader from '~/components/ui/nav-header';
 import WeightText from '~/components/weight-text';
@@ -28,6 +29,11 @@ export default function WeightEntryScreen() {
         <NavHeader showBack />
         <View className="self-center mb-10 mt-6">
           <WeightText weight={entry.weight} size="lg" />
+          {entry.satisfaction && (
+            <View className="self-center my-2">
+              <SatisfactionIcon satisfaction={entry.satisfaction} size={14} />
+            </View>
+          )}
         </View>
 
         <View className="flex-row items-center mb-4">
