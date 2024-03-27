@@ -1,4 +1,6 @@
 import clsx from 'clsx';
+import dayjs from 'dayjs';
+
 import { useLocalSearchParams } from 'expo-router';
 import { Text, Image, View, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -21,6 +23,11 @@ export default function WeightEntryScreen() {
     );
   }
 
+  const monthDay = dayjs(entry.date).format('MMMM D');
+  const year = dayjs(entry.date).format('YYYY');
+  const time = dayjs(entry.date).format('h:mm');
+  const amOrPm = dayjs(entry.date).format('A');
+
   const images = retreivePathsForEntries(entry.images);
 
   return (
@@ -37,14 +44,14 @@ export default function WeightEntryScreen() {
         </View>
 
         <View className="flex-row items-center mb-4">
-          <Text className={`dark:text-white text-center font-incon_semibold text-2xl`}>2:34</Text>
-          <Text className={clsx('dark:text-white text-center font-incon text-2xl')}> PM</Text>
+          <Text className={`dark:text-white text-center font-incon_semibold text-2xl`}>{time}</Text>
+          <Text className={clsx('dark:text-white text-center font-incon text-2xl')}> {amOrPm}</Text>
         </View>
         <View className="flex-row items-center">
           <Text className={`dark:text-white text-center font-incon_semibold text-2xl`}>
-            March 8
+            {monthDay}
           </Text>
-          <Text className={clsx('dark:text-white text-center font-incon text-2xl')}> 2024</Text>
+          <Text className={clsx('dark:text-white text-center font-incon text-2xl')}> {year}</Text>
         </View>
 
         {images.length >= 1 && (
