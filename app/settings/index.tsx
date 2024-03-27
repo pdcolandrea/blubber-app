@@ -73,7 +73,7 @@ export default function SettingsScreen() {
               showCaret
             />
           </Link>
-          <Seperator />
+          {/* <Seperator />
           <Link asChild href="/settings/reminders">
             <TitleButton
               header="Reminders"
@@ -81,7 +81,7 @@ export default function SettingsScreen() {
               description="Edit your jksdj jsdjusj nhere when changing the weight calculation"
               showCaret
             />
-          </Link>
+          </Link> */}
 
           <View style={{ flex: 1, justifyContent: 'flex-end' }}>
             <TouchableOpacity

@@ -71,7 +71,7 @@ export default function RootLayout() {
             <Stack.Screen name="settings/units" />
             <Stack.Screen
               name="entry/[id]"
-              options={{ title: 'Weight Entry', headerShown: true }}
+              options={{ title: 'Weight Entry', headerShown: false }}
             />
 
             {/* modals */}
