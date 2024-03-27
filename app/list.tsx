@@ -28,6 +28,16 @@ export default function WeightHistoryList() {
           data={entries.sort((a, b) => +new Date(b.date) - +new Date(a.date))}
           style={{ marginTop: 24 }}
           ItemSeparatorComponent={() => <View className="w-full h-1" />}
+          ListEmptyComponent={() => (
+            <Link asChild replace href="/add">
+              <TouchableOpacity className="mt-60">
+                <Text className="text-center text-neutral-500 text-2xl">No entries yet</Text>
+                <Text className="text-center text-neutral-500 text-xl">
+                  Swipe up on main screen or touch here to get started.
+                </Text>
+              </TouchableOpacity>
+            </Link>
+          )}
           renderItem={({ item, index }) => {
             return (
               <Link asChild href={`/entry/${item.id}`}>
