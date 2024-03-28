@@ -91,7 +91,9 @@ export default function WeightGoals() {
                   exiting={FadeOutRight}
                   className={`text-2xl font-incon_semibold dark:text-white `}
                 >
-                  {weightGoal ? `${weightGoal.weight.toFixed(1)}lb` : 'No Current Goal'}
+                  {weightGoal
+                    ? `${weightGoal.weight % 1 !== 0 ? weightGoal.weight.toFixed(1) : weightGoal.weight}lb`
+                    : 'No Current Goal'}
                 </Animated.Text>
               )
             }
