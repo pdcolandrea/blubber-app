@@ -233,7 +233,7 @@ export default function ModalScreen() {
           <TouchableOpacity
             onPress={() => {
               Keyboard.dismiss();
-              setShowPhotoModal(true);
+              setShowPhotoModal((val) => !val);
             }}
             className="mb-5 pr-8"
           >
