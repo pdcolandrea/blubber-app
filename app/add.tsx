@@ -28,6 +28,7 @@ import { useTheme } from '@react-navigation/native';
 
 import * as ImagePicker from 'expo-image-picker';
 import { saveImagesToFileSystem, uriToFilename } from '~/lib/image-filesystem';
+import { useUserSettings } from '~/lib/user-store';
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -41,6 +42,7 @@ export default function ModalScreen() {
   const unit = useWeightHistory((store) => store.unit);
   const getLastEntry = useWeightHistory((store) => store.lastEntry);
   const addEntryMutation = useWeightHistory((store) => store.addEntry);
+  const hardMode = useUserSettings((store) => store.hardMode);
 
   const navigation = useNavigation();
   const lastEntry = getLastEntry();
@@ -193,7 +195,7 @@ export default function ModalScreen() {
         <Text className="font-incon text-5xl mb-2 text-neutral-400">{unit}</Text>
       </View>
 
-      {(weightValue === 0 || difference === 0) && (
+      {(!hardMode || weightValue === 0 || difference === 0) && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
           className="text-center text-neutral-500 font-incon_bold mt-2"
@@ -202,7 +204,7 @@ export default function ModalScreen() {
         </Animated.Text>
       )}
 
-      {lastEntry && weightValue !== 0 && difference !== 0 && !goodDay && (
+      {hardMode && lastEntry && weightValue !== 0 && difference !== 0 && !goodDay && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
           className="text-center font-incon_bold mt-2 text-neutral-500"
@@ -211,7 +213,7 @@ export default function ModalScreen() {
         </Animated.Text>
       )}
 
-      {lastEntry && weightValue !== 0 && difference !== 0 && goodDay && (
+      {hardMode && lastEntry && weightValue !== 0 && difference !== 0 && goodDay && (
         <Animated.Text
           entering={FadeIn.duration(1000)}
           className="text-center font-incon_bold mt-2 text-neutral-500"
