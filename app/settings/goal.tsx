@@ -32,8 +32,10 @@ export default function WeightGoals() {
     // avoids 0.0 getting set as goal
     if (value === '0') return;
 
+    const weight = parseFloat(value);
+
     setGoal({
-      weight: parseFloat(value),
+      weight: weight % 1 !== 0 ? weight : Math.floor(weight),
       date: new Date(),
     });
   };
