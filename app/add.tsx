@@ -225,10 +225,10 @@ export default function ModalScreen() {
 
       <View className="mt-6">
         <View>
-          <TouchableOpacity className="mb-5 pr-8 self-start">
+          {/* <TouchableOpacity className="mb-5 pr-8 self-start">
             <Text className="dark:text-white text-2xl font-incon_semibold">-</Text>
             <Text className="font-incon text-xl text-neutral-500">Notes</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={() => {

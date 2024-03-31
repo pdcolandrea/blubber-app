@@ -26,6 +26,7 @@ export default function WeightHistoryList() {
 
         <FlatList
           data={entries.sort((a, b) => +new Date(b.date) - +new Date(a.date))}
+          scrollEnabled={entries.length > 0}
           style={{ marginTop: 24 }}
           ItemSeparatorComponent={() => <View className="w-full h-1" />}
           ListEmptyComponent={() => (
