@@ -144,7 +144,7 @@ export default function TabOneScreen() {
                 {weightGoal ? (
                   <>
                     <WeightText weight={weightGoal.weight} />
-                    <Text className="font-incon text-xl text-neutral-500">Weekly Goal</Text>
+                    <Text className="font-incon text-xl text-neutral-500">Goal</Text>
                   </>
                 ) : (
                   <Link asChild href="/settings/goal">

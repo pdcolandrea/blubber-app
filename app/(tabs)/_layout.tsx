@@ -1,6 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Slot, Tabs } from 'expo-router';
+import { Link, Redirect, Slot, Tabs } from 'expo-router';
 import { Pressable, StyleSheet } from 'react-native';
+import { useUserSettings } from '~/lib/user-store';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -10,6 +11,12 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+  const hasOnboarded = useUserSettings((store) => store.hasOnboarded);
+
+  if (!hasOnboarded) {
+    return <Redirect href="/onboard/" />;
+  }
+
   return (
     <Slot />
     // <Tabs

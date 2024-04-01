@@ -69,6 +69,11 @@ export default function RootLayout() {
             <Stack.Screen name="settings/motivation" />
             <Stack.Screen name="settings/reminders" />
             <Stack.Screen name="settings/units" />
+
+            <Stack.Screen name="onboard/index" options={{ animation: 'none' }} />
+            <Stack.Screen name="onboard/style" options={{ animation: 'none' }} />
+            <Stack.Screen name="onboard/input" options={{ animation: 'none' }} />
+
             <Stack.Screen
               name="entry/[id]"
               options={{ title: 'Weight Entry', headerShown: false }}
