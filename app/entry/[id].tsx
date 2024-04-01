@@ -54,34 +54,49 @@ export default function WeightEntryScreen() {
           <Text className={clsx('dark:text-white text-center font-incon text-2xl')}> {year}</Text>
         </View>
 
-        {images.length >= 1 && (
-          <View className="mt-6 items-center">
-            <FlatList
-              data={images}
-              horizontal
-              snapToAlignment="center"
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled
-              renderItem={({ item, index }) => {
-                return (
-                  <View style={{ width: 300, height: 400 }}>
-                    <Image
-                      source={{
-                        uri: item,
-                      }}
-                      style={{
-                        flex: 1,
-                        width: undefined,
-                        height: undefined,
-                        resizeMode: 'contain',
-                      }}
-                    />
-                  </View>
-                );
-              }}
-            />
-          </View>
-        )}
+        <View className="mt-6 items-center">
+          <FlatList
+            data={images}
+            horizontal
+            snapToAlignment="center"
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            scrollEnabled={images.length > 1}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    width: 300,
+                    height: 400,
+                    backgroundColor: '#e5e5e5',
+                    borderRadius: 12,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text className="font-incon_semibold">No Images</Text>
+                </View>
+              );
+            }}
+            renderItem={({ item, index }) => {
+              return (
+                <View style={{ width: 300, height: 400 }}>
+                  <Image
+                    source={{
+                      uri: item,
+                    }}
+                    style={{
+                      flex: 1,
+                      width: undefined,
+                      height: undefined,
+                      resizeMode: 'contain',
+                    }}
+                  />
+                </View>
+              );
+            }}
+          />
+        </View>
 
         {/* <Image source={{ uri: images[0] }} style={{ width: 200, height: 200 }} /> */}
         {/* <Text className="dark:text-white">{JSON.stringify(entry)}</Text> */}
