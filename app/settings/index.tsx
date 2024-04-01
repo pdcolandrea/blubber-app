@@ -7,6 +7,7 @@ import TitleButton from '~/components/title-button';
 import BaseScreen from '~/components/ui/base-screen';
 import NavHeader from '~/components/ui/nav-header';
 import { deleteImagesFromFileSystem } from '~/lib/image-filesystem';
+import { useUserSettings } from '~/lib/user-store';
 import { useWeightHistory } from '~/lib/weight-store';
 
 const Seperator = () => {
@@ -16,6 +17,7 @@ const Seperator = () => {
 export default function SettingsScreen() {
   const entries = useWeightHistory((store) => store.entries);
   const deleteAllEntries = useWeightHistory((store) => store.deleteAllEntries);
+  const setHasOnboarded = useUserSettings((store) => store.setOnboarded);
   const { goBack } = useNavigation();
   const router = useRouter();
 
@@ -30,6 +32,7 @@ export default function SettingsScreen() {
       console.warn(err.messaage);
     }
     deleteAllEntries();
+    setHasOnboarded(false);
     router.navigate('/(tabs)/');
   };
 
