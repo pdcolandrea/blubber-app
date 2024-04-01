@@ -54,7 +54,7 @@ export default function SettingsScreen() {
             <TitleButton
               header="Weight Goal"
               description="Edit your jksdj jsdjusj nhere when changing the weight calculation"
-              icon={<FeatherIcon name="slack" size={17} />}
+              icon={<FeatherIcon name="settings" size={17} />}
               showCaret
             />
           </Link>
@@ -62,7 +62,7 @@ export default function SettingsScreen() {
           <Link asChild href="/settings/motivation">
             <TitleButton
               header="Motivation"
-              icon={<FeatherIcon name="slack" size={17} />}
+              icon={<FeatherIcon name="meh" size={17} />}
               description="Enjoy mean quotes and other things to keep you motivated? Thats here."
               showCaret
             />
@@ -71,7 +71,7 @@ export default function SettingsScreen() {
           <Link asChild href="/settings/units">
             <TitleButton
               header="Units"
-              icon={<FeatherIcon name="slack" size={17} />}
+              icon={<FeatherIcon name="globe" size={17} />}
               description="Edit your jksdj jsdjusj nhere when changing the weight calculation"
               showCaret
             />
