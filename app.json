@@ -2,7 +2,7 @@
   "expo": {
     "name": "Blubber",
     "slug": "weight-tracker",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "scheme": "blubber",
     "web": {
       "bundler": "metro",
@@ -37,7 +37,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.pdcolandrea.blubber",
       "userInterfaceStyle": "automatic",
-      "buildNumber": "2",
+      "buildNumber": "3",
       "infoPlist": {
         "CFBundleDisplayName": "Blubber"
       }

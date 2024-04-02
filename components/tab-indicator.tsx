@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useColorScheme } from 'react-native';
 import Animated, {
   StretchInX,
   useAnimatedStyle,
@@ -13,6 +13,7 @@ interface TabIndicatorProps {
 }
 
 export default function TabIndicator({ totalTabs, activeTab }: TabIndicatorProps) {
+  const scheme = useColorScheme();
   const widthValues = Array.from({ length: totalTabs }, () => useSharedValue(10));
 
   // Update the width values when activeTab changes
@@ -37,7 +38,7 @@ export default function TabIndicator({ totalTabs, activeTab }: TabIndicatorProps
                 marginHorizontal: 3,
                 height: 10,
                 borderRadius: 300,
-                backgroundColor: i === activeTab ? 'black' : 'gray',
+                backgroundColor: i === activeTab ? (scheme === 'dark' ? 'white' : 'black') : 'gray',
               },
               animatedStyle,
             ]}

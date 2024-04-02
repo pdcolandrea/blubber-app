@@ -27,21 +27,29 @@ export default function UserStyleScreen() {
         <PlaceholderImage />
         <TabIndicator activeTab={1} totalTabs={3} />
 
-        <Text className="font-incon_semibold text-4xl text-center mt-12">Choose Your Style</Text>
-        <Text className="font-incon text-xl text-center">
+        <Text className="font-incon_semibold text-4xl text-center mt-12 dark:text-white">
+          Choose Your Style
+        </Text>
+        <Text className="font-incon dark:text-white text-xl text-center">
           Straight talk or sassy humor? Customize your motivational style here.
         </Text>
 
         <View className="flex-1 justify-end">
           <Animated.View entering={FadeIn} className="flex-row items-center justify-between">
-            <TouchableOpacity onPress={onSassyPressed} className="bg-black w-[47%] rounded-xl">
-              <Text className="text-white font-incon_semibold text-center text-2xl py-4">
+            <TouchableOpacity
+              onPress={onSassyPressed}
+              className="bg-black dark:bg-white w-[47%] rounded-xl"
+            >
+              <Text className="text-white dark:text-black font-incon_semibold text-center text-2xl py-4">
                 Sassy
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={onClassicPressed} className="bg-black w-[47%] rounded-xl">
-              <Text className="text-white font-incon_semibold text-center text-2xl py-4">
+            <TouchableOpacity
+              onPress={onClassicPressed}
+              className="bg-black dark:bg-white w-[47%] rounded-xl"
+            >
+              <Text className="text-white dark:text-black font-incon_semibold text-center text-2xl py-4">
                 Classic
               </Text>
             </TouchableOpacity>

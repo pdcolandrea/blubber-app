@@ -16,8 +16,10 @@ export default function OnboardScreen() {
         <PlaceholderImage />
         <TabIndicator activeTab={0} totalTabs={3} />
 
-        <Text className="font-incon_semibold text-4xl text-center mt-12">Welcome to Blubber!</Text>
-        <Text className="font-incon text-xl text-center">
+        <Text className="font-incon_semibold text-4xl text-center mt-12 dark:text-white">
+          Welcome to Blubber!
+        </Text>
+        <Text className="font-incon text-xl text-center dark:text-white">
           Where we track your weight with wit! Get ready for a unique experience that combines
           effective weight tracking with a sprinkle of humor.
         </Text>
@@ -26,9 +28,9 @@ export default function OnboardScreen() {
           <Link asChild href="/onboard/style">
             <AnimatedTouchableOpacity
               entering={FadeIn.delay(500)}
-              className="self-center bg-black rounded-xl w-full"
+              className="self-center bg-black dark:bg-white rounded-xl w-full"
             >
-              <Text className="text-white font-incon_semibold text-center text-2xl py-4">
+              <Text className="text-white dark:text-black font-incon_semibold text-center text-2xl py-4">
                 Get Started
               </Text>
             </AnimatedTouchableOpacity>
