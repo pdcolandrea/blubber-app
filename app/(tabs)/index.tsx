@@ -76,11 +76,16 @@ export default function TabOneScreen() {
     return (lastEntry.weight / ((height / 100) * (height / 100))).toFixed(1);
   }, [lastEntry, height]);
 
-  const formatDate = (date: number) => {
-    console.log({ date });
-    const day = dayjs(date).format('MM/DD @ ha').toUpperCase();
-    console.log({ day });
-    return day;
+  const formatDate = (d: number) => {
+    const date = new Date(d); // Replace +new Date() with your timestamp
+    const formattedDate =
+      date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }) +
+      ' @' +
+      date
+        .toLocaleTimeString('en-US', { hour: '2-digit', hour12: true })
+        .replace(' ', '')
+        .toLowerCase();
+    return formattedDate;
   };
 
   const onLayout = () => {
@@ -179,21 +184,14 @@ export default function TabOneScreen() {
             <LineChart.Provider
               data={userHistory
                 .filter((entry) => dayjs().diff(dayjs(entry.date), 'day') <= dateFilter)
-                .sort((a, b) => a.date - b.date)
+                .sort((a, b) => b.date - a.date)
                 .map((entry, index) => {
                   if (entry.weight < chartLow.current) chartLow.current = index;
                   if (entry.weight > chartHigh.current) chartHigh.current = index;
 
                   return {
                     value: entry.weight,
-                    timestamp: new Date(entry.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      second: '2-digit',
-                    }),
+                    timestamp: +new Date(entry.date),
                   };
                 })}
             >
@@ -216,7 +214,17 @@ export default function TabOneScreen() {
                       }}
                       format={({ value }) => {
                         'worklet';
-                        return runOnJS(formatDate)(value);
+                        const date = new Date(value); // Replace +new Date() with your timestamp
+                        const formattedDate =
+                          date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }) +
+                          ' @ ' +
+                          date
+                            .toLocaleTimeString('en-US', { hour: '2-digit', hour12: true })
+                            .replace(' ', '')
+                            .toLowerCase();
+                        return formattedDate;
+
+                        // return runOnJS(formatDate)(value);
 
                         return `${dayjs(value).format('MM/DD @ ha').toUpperCase()}`;
                       }}
