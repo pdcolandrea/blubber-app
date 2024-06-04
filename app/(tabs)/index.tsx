@@ -40,6 +40,7 @@ export default function TabOneScreen() {
   const lastEntry = useWeightHistory((store) => store.lastEntry());
   const streak = useWeightHistory((store) => store.getStreak());
   const userUnit = useWeightHistory((store) => store.unit);
+  const generateFakeData = useWeightHistory((store) => store.debugAdd);
 
   const chartLow = useRef(0);
   const chartHigh = useRef(0);
@@ -75,18 +76,6 @@ export default function TabOneScreen() {
     // calculate bmi in kg and cm
     return (lastEntry.weight / ((height / 100) * (height / 100))).toFixed(1);
   }, [lastEntry, height]);
-
-  const formatDate = (d: number) => {
-    const date = new Date(d); // Replace +new Date() with your timestamp
-    const formattedDate =
-      date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }) +
-      ' @' +
-      date
-        .toLocaleTimeString('en-US', { hour: '2-digit', hour12: true })
-        .replace(' ', '')
-        .toLowerCase();
-    return formattedDate;
-  };
 
   const onLayout = () => {
     ref.current?.scrollToIndex({
