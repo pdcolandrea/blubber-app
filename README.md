@@ -67,13 +67,17 @@ yarn install
 Install all pods:
 
 ```shell
-cd ios && pod install
+npx expo prebuild
+```
+
+```shell
+npx expo start --dev-client
 ```
 
 ### Running on Simulator
 
 ```shell
-yarn run run:ios
+eas build --profile development-simulator --platform ios
 ```
 
 or
