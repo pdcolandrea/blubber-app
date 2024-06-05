@@ -102,4 +102,4 @@ Blubber is built using [Expo], [React Native] and [TypeScript].
 
 ## License
 
-Cosmic is licensed under the terms of the MIT license.
+Blubber is licensed under the terms of the MIT license.
