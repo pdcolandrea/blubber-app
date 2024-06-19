@@ -26,7 +26,7 @@
   </em>
 </p>
 <p align="center">
-  <a href="https://github.com/search?q=repo%3Apdcolandrea%2Fcosmic-app++language%3ATypeScript&type=code" target="_blank">
+  <a href="https://github.com/search?q=repo%3Apdcolandrea%2Fblubber-app++language%3ATypeScript&type=code" target="_blank">
     <img src="https://img.shields.io/github/languages/top/pdcolandrea/cosmic-app" alt="Language">
   </a>
   <!-- <a href="https://apple.co/458U0ul" target="_blank">
